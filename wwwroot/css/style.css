@@ -1,0 +1,45 @@
+﻿html, body {
+  margin: 0;
+  padding: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0; }
+
+html {
+  font-size: 62.5%;
+  font-family: Roboto; }
+
+.Invisible {
+  opacity: 0; }
+
+header {
+  transition: 250ms; }
+  header .Baner {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; }
+    header .Baner .Background {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      background-image: url("../img/baner2.jpg");
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      filter: brightness(70%) contrast(130%); }
+    header .Baner .Text {
+      box-sizing: border-box;
+      padding: 30px;
+      color: white;
+      width: 60%;
+      text-shadow: 0 0 5px rgba(0, 0, 0, 0.3); }
+      header .Baner .Text h1 {
+        font-size: 6rem; }
+      header .Baner .Text h2 {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 4rem; }
