@@ -1,4 +1,6 @@
 # Blog
+## NuGet packages
+* Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 ## Assumptions 
 **The application**
 * Is created in the .net core 3.1, using model-view-controller,  
