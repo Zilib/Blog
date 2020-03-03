@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Blog</title>
     <link rel="stylesheet" href="~/css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -29,17 +30,12 @@
                </div>
            </nav>
        </header>-->
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <!--<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Blog - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    @RenderBody()
+    <footer class="border-top footer text-muted">
+        <div class="container" style="text-align:center;font-size:2rem;margin-top:30px;margin-bottom:30px;">
+            &copy; 2020 - Blog - Adrian Bielec
         </div>
-    </footer>-->
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

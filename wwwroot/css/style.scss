@@ -2,13 +2,17 @@
     margin:0;
     padding:0;
 }
+body {
+    max-width:100vw;
+    overflow-x:hidden;
+}
 h1,h2,h3,h4,h5,h6 {
     margin:0;
     padding:0;
 }
 html {
     font-size:62.5%;
-    font-family: Roboto;
+    font-family: 'Lato', sans-serif;
 }
 // Animation css
 .Invisible {
@@ -22,21 +26,22 @@ header {
 
     .Baner {
         width:100vw;
-        height:100vh;
+        height:40vh;
         position:relative;
         display:flex;
         align-items:center;
         justify-content:flex-start;
-
+        box-shadow:0 0 5px rgba(0,0,0,.4);
         .Background {
             width:100vw;
-            height:100vh;
+            height:100%;
             position:absolute;
             background-image:url("../img/baner2.jpg");
             background-size:cover;
             background-position:center;
+            background-attachment:fixed;
             z-index:-1;
-            filter: brightness(70%) contrast(130%);
+            filter: brightness(90%) contrast(100%);
         }
         .Text {
             box-sizing:border-box;
@@ -53,6 +58,99 @@ header {
                 text-align:left;
                 margin-top:10px;
                 font-size:4rem;
+            }
+        }
+    }
+}
+
+main {
+    margin: 1.5% 10% 0 10%;
+    width: 80%;
+    padding: 0;
+    font-size: 1.6rem;
+
+    .Posts {
+
+        article {
+            display: flex;
+            width: 100%;
+            box-sizing: border-box;
+            padding-bottom: 40px;
+            margin-top:20px;
+            border-bottom:2px solid rgba(0,0,0,.1);
+            border-radius:2%;
+            flex-wrap: wrap;
+
+            .Article--left {
+                padding: 20px;
+                width: 70%;
+                box-sizing: border-box;
+                position:relative;
+
+                .Title {
+                    width: 100%;
+                    // Make bottom line with margin to up text
+                    /*&:after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 1.5px;
+                margin-top: 6px;
+                background: rgba(255,165,0,.4);
+                box-shadow: 0 1px 3px 1px rgba(255, 106, 0, .3);
+                border-radius:70%;
+            } */
+                    h3 {
+                        color: rgba(0,0,0,1.0);
+                        font-size: 5rem;
+                        font-weight: 500;
+                        margin-bottom: 15px;
+                        text-align: center;
+                    }
+                }
+
+                .PublishTime {
+                    text-align:right;
+                    width: 80%;
+                    margin:0 10% 10px 10%;
+                    color:rgba(0,0,0,.4);
+                }
+
+                .Content {
+                    font-size: 2.6rem;
+                    position:relative;
+
+                    p {
+                        margin: 0;
+                        padding: 0;
+                        position:relative;
+                    }
+
+                    .ReadMore {
+                        margin:10px 0 0 10px;
+                        font-size: 2rem;
+                        text-decoration: none;
+                        display: block;
+
+                        &:visited {
+                            color: blue;
+                        }
+                    }
+                }
+            }
+
+            .Article--right {
+                width: 30%;
+
+                .Image {
+                    overflow: hidden;
+                    height: 100%;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
             }
         }
     }
