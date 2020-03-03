@@ -1,6 +1,7 @@
 # Blog
 ## NuGet packages
 * Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+* Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
 ## Assumptions 
 **The application**
 * Is created in the .net core 3.1, using model-view-controller,  
