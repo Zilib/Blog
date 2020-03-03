@@ -23,8 +23,19 @@
                 <div class="Title">
                     <h3>@Html.Raw(Model[0].Title)</h3>
                 </div>
-                <div class="PublishTime">
-                    <span>@Model[0].PublishTime</span>
+                <div class="Article--information">
+                    <div class="Author">
+                        @if (@Model[0].Author.Name != string.Empty && @Model[0].Author.Surname != string.Empty)
+                        {
+                            <span>@Model[0].Author.Name @Model[0].Author.Surname</span>
+                        } else 
+                        {
+                            <span>Uknown</span>
+                        }
+                    </div>
+                    <div class="PublishTime">
+                        <span>@Model[0].PublishTime</span>
+                    </div>
                 </div>
                 <div class="Content">
                     @Html.Raw(Model[0].Content.Substring(0, 300))

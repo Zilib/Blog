@@ -87,11 +87,21 @@ main {
           font-weight: 500;
           margin-bottom: 15px;
           text-align: center; }
-      main .Posts article .Article--left .PublishTime {
-        text-align: right;
-        width: 80%;
-        margin: 0 10% 10px 10%;
-        color: rgba(0, 0, 0, 0.4); }
+      main .Posts article .Article--left .Article--information {
+        display: flex;
+        color: rgba(0, 0, 0, 0.4);
+        font-weight: 600;
+        margin-bottom: 10px; }
+        main .Posts article .Article--left .Article--information .Author {
+          width: 50%;
+          text-transform: uppercase;
+          font-size: 1.6rem;
+          letter-spacing: 2px;
+          text-shadow: 0 0 2px rgba(0, 0, 0, 0.3); }
+        main .Posts article .Article--left .Article--information .PublishTime {
+          text-align: right;
+          width: 50%;
+          margin: 0 10% 10px 10%; }
       main .Posts article .Article--left .Content {
         font-size: 2.6rem;
         position: relative; }
