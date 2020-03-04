@@ -4,61 +4,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- It is invisible firslty-->
-<header id="Header" class="Invisible">
-    <div class="Baner">
-        <div class="Background"></div>
-        <div class="Text">
-            <h1>Każdy uwieczniony głos,</h1>
-            <h2>To ten, który niekoniecznie zrozumiemy teraz, ale kiedyś...</h2>
+<div class="Blog">
+    <!-- It is invisible firslty-->
+    <header id="Header" class="Invisible">
+        <div class="Baner">
+            <div class="Background"></div>
+            <div class="Text">
+                <h1>Każdy uwieczniony głos,</h1>
+                <h2>To ten, który niekoniecznie zrozumiemy teraz, ale kiedyś...</h2>
+            </div>
         </div>
-    </div>
-</header>
-<main>
-    <div class="Posts">
-        @for (int i = 0; i < 7; i++)
-    {
-        <article class="Post">
-            <div class="Article--left">
-                <div class="Title">
-                    <h3>@Html.Raw(Model[0].Title)</h3>
-                </div>
-                <div class="Article--information">
-                    <div class="Author">
-                        @if (@Model[0].Author.Name != string.Empty && @Model[0].Author.Surname != string.Empty)
+    </header>
+    <main>
+        <div class="Posts">
+            @for (int i = 0; i < 7; i++)
+        {
+            <article class="Post">
+                <div class="Article--left">
+                    <div class="Title">
+                        <h3>@Html.Raw(Model[0].Title)</h3>
+                    </div>
+                    <div class="Article--information">
+                        <div class="Author">
+                            @if (@Model[0].Author.Name != string.Empty && @Model[0].Author.Surname != string.Empty)
+                            {
+                                <span>@Model[0].Author.Name @Model[0].Author.Surname</span>
+                            } else 
+                            {
+                                <span>Uknown</span>
+                            }
+                        </div>
+                        <div class="PublishTime">
+                            <span>@Model[0].PublishTime</span>
+                        </div>
+                    </div>
+                    <div class="Content">
+                        @Html.Raw(Model[0].Content.Substring(0, 300))
+                        @if (Model[0].Content.Length > 300)
                         {
-                            <span>@Model[0].Author.Name @Model[0].Author.Surname</span>
-                        } else 
-                        {
-                            <span>Uknown</span>
+                            <a href="#" class="ReadMore">Czytaj więcej!</a>
                         }
                     </div>
-                    <div class="PublishTime">
-                        <span>@Model[0].PublishTime</span>
+                </div>
+                <div class="Article--right">
+                    <div class="Image">
+                        <!--<img src="@Url.Content(Model[0].ImgSrc)" /> -->
+                        @switch (i % 3)
+                            {
+                                case 0: <img src="~/img/Posts/Post1.jpg" /> break;
+                                case 1: <img src="~/img/Posts/Post2.jpg" /> break;
+                                case 2: <img src="~/img/Posts/Post3.jpg" /> break;
+                            }
                     </div>
                 </div>
-                <div class="Content">
-                    @Html.Raw(Model[0].Content.Substring(0, 300))
-                    @if (Model[0].Content.Length > 300)
-                    {
-                        <a href="#" class="ReadMore">Czytaj więcej!</a>
-                    }
-                </div>
-            </div>
-            <div class="Article--right">
-                <div class="Image">
-                    <!--<img src="@Url.Content(Model[0].ImgSrc)" /> -->
-                    @switch (i % 3)
-                        {
-                            case 0: <img src="~/img/Posts/Post1.jpg" /> break;
-                            case 1: <img src="~/img/Posts/Post2.jpg" /> break;
-                            case 2: <img src="~/img/Posts/Post3.jpg" /> break;
-                        }
-                </div>
-            </div>
 
 
-    </article>
-    }
-    </div>
-</main>
+        </article>
+        }
+        </div>
+    </main>
+</div>

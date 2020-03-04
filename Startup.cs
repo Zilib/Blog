@@ -31,7 +31,7 @@ namespace Blog
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(25);
 
                 options.LoginPath = "/Login";
                 options.LogoutPath = "/Logout";

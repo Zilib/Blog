@@ -2,17 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Controllers
 {
     public class AccountController : Controller
     {
-        [Authorize]
-        public IActionResult Dashboard()
+        private readonly UserManager<BlogUser> _userManager;
+
+        public AccountController(UserManager<BlogUser> userManager)
         {
-            return View();
+            _userManager = userManager;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DashboardAsync()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            return View(user);
         }
     }
 }

@@ -48,4 +48,25 @@ $(() => {
     }
     // Show every elements which are available to see in first view
     $(this).showInView();
+
+    // Add expand button into
+    if ($("#sidebar").length) { // If sidebar exist
+        let extendButton = $("<div class='nav-expand' id='sidebar-expand'>>></div >"); // Create it, it is defined in css
+        $("#sidebar").append(extendButton); // add button
+    }
+});
+
+// Dashboard, show sidebar when user hover at navbar-expand
+
+$("#sidebar-expand, #sidebar").on("mouseenter", () => {
+    if (!$("#sidebar").hasClass("expand")) { // If sidebar is not expanded
+        $("#sidebar").addClass("expand");
+    }
+});
+
+// Hide sidebar when user not hover any more sidebar
+$("#sidebar-expand, #sidebar").on("mouseleave", () => {
+    if ($("#sidebar").hasClass("expand")) {
+        $("sidebar").removeClass("expand");
+    }
 });

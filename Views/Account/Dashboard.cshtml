@@ -3,6 +3,26 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Dashboard</h1>
+<div class="Dashboard">
+    <sidebar id="sidebar">
+        <div class="Avatar">
+            <img src="~/img/Users/Bielec.jpg" />
+        </div>
+        <div class="Information">
+            <span>@Model.Name @Model.Surname</span>
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="#">Konto</a></li>
+                <li><a href="#">Dodaj użytkownika</a></li>
+                <li><a href="#">Zarządzaj blogiem</a></li>
+            </ul>
+        </nav>
+    </sidebar>
+    <!--
+    <div class="container">
+        <h1>Witaj <b>@Model.Name</b></h1>
+    </div> 
+    -->
+</div>
 
