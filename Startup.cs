@@ -33,7 +33,8 @@ namespace Blog
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Identity/Account/Login";
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
@@ -73,12 +74,7 @@ namespace Blog
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapControllerRoute(
-                    name: "Login",
-                    pattern: ""
-                    );
+                    pattern: "{controller=Blog}/{action=Index}/{id?}");
 
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
