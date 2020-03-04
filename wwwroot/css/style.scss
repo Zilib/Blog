@@ -1,4 +1,6 @@
-﻿html,body {
+﻿$articleAnimationTime: 2s;
+
+html,body {
     margin:0;
     padding:0;
 }
@@ -80,6 +82,9 @@ main {
             border-bottom: 2px solid rgba(0,0,0,.1);
             border-radius: 2%;
             flex-wrap: wrap;
+            opacity: 0;
+            transform:translateX(-150%);
+            transition: $articleAnimationTime;
 
             .Article--left {
                 padding: 20px;
@@ -110,25 +115,26 @@ main {
                 }
 
                 .Article--information {
-                    display:flex;
+                    display: flex;
                     color: rgba(0,0,0,.4);
-                    font-weight:600;
-                    margin-bottom:10px;
+                    font-weight: 600;
+                    margin-bottom: 10px;
 
                     .Author {
-                        width:50%;
-                        text-transform:uppercase;
-                        font-size:1.6rem;
-                        letter-spacing:2px;
-                        text-shadow:0 0 2px rgba(0,0,0,.3);
+                        width: 50%;
+                        text-transform: uppercase;
+                        font-size: 1.6rem;
+                        letter-spacing: 2px;
+                        text-shadow: 0 0 2px rgba(0,0,0,.3);
                     }
 
                     .PublishTime {
-                    text-align: right;
-                    width: 50%;
-                    margin: 0 10% 10px 10%;
+                        text-align: right;
+                        width: 50%;
+                        margin: 0 10% 10px 10%;
                     }
                 }
+
                 .Content {
                     font-size: 2.6rem;
                     position: relative;
@@ -165,6 +171,11 @@ main {
                     }
                 }
             }
+        }
+
+        .Show {
+            opacity: 1;
+            transform:translateX(0);
         }
     }
 }
