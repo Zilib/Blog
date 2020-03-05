@@ -396,4 +396,9 @@ html {
             font-weight: 400; // make it less strong
         }
     }
+
+    main {
+        // 300 because of 250px is sidebar, and 50px is navbar button sidebar
+        padding-left:300px;
+    }
 }

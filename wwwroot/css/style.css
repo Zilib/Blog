@@ -281,3 +281,6 @@ html {
 
 .Dashboard h1 b {
   font-weight: 400; }
+
+.Dashboard main {
+  padding-left: 300px; }

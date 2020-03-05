@@ -1,4 +1,5 @@
-﻿@model Blog.Controllers.AccountController
+﻿@page
+@model DashboardModel
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +10,7 @@
             <img src="~/img/Users/Bielec.jpg" />
         </div>
         <div class="Information">
-            <span>@Model?.UserName</span>
+            <span>@Model.userInformation.Name  @Model.userInformation.Surname</span>
         </div>
         <nav class="navigation">
             <ul>
@@ -23,11 +24,10 @@
         <h1>Witaj </h1>
         <hr />
 
-        <form asp-action="UpdateData" method="post">
-           Imię: <input asp-for="Input.Name"  />
-            Nazwisko: <input  />
+        <form method="post">
+            Imię: <input asp-for="userInformation.Name"/>
+            Nazwisko: <input asp-for="userInformation.Surname"/>
             <button type="submit">Aktualizuj!</button>
         </form>
     </main>
 </div>
-
