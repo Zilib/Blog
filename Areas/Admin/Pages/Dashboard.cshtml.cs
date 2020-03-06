@@ -18,11 +18,11 @@ namespace Blog.Areas.Admin
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public string userName { get; set; }
-        public string userSurname { get; set; }
+        public string UserName { get; set; }
+        public string UserSurname { get; set; }
 
         [BindProperty]
-        public UserInformation userInformation { get; set; }
+        public InputModel Input { get; set; }
 
         public DashboardModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
         {
@@ -30,28 +30,32 @@ namespace Blog.Areas.Admin
             _logger = logger;
         }
 
-        public class UserInformation
+        public class InputModel
         {
             [Required]
             [Display(Name = "Imie")]
-            public string Name { get; set; }
+            public string NewName { get; set; }
             [Required]
             [Display(Name = "Nazwisko")]
-            public string Surname { get; set; }
+            public string NewSurname { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return LocalRedirect("~/Admin/Login");
             }
 
-            userInformation = new UserInformation
+            UserName = user.Name;
+            UserSurname = user.Surname;
+
+            Input = new InputModel
             {
-                Name = user.Name,
-                Surname = user.Surname
+                NewName = user.Name,
+                NewSurname = user.Surname
             };
             
             return Page();
@@ -63,26 +67,35 @@ namespace Blog.Areas.Admin
 
             if (user == null)
             {
-                return Page();
+                return LocalRedirect("~/Admin/Login");
             }
 
             if (!ModelState.IsValid)
             {
+                UserName = user.Name;
+                UserSurname = user.Surname;
+
                 return Page();
             }
 
-            if (userInformation.Name != user.Name && userInformation.Name != "")
+            #region Input Validation
+
+            if (Input.NewName != user.Name && Input.NewName != string.Empty)
             {
-                user.Name = userInformation.Name;
+                user.Name = Input.NewName;
             }
 
-            if (userInformation.Surname != user.Surname && userInformation.Surname != "")
+            if (Input.NewSurname != user.Surname && Input.NewSurname != string.Empty)
             {
-                user.Surname = userInformation.Surname;
+                user.Surname = Input.NewSurname;
             }
+
+            #endregion
 
             await _userManager.UpdateAsync(user);
-            return Page();
+
+            // Local redirect because, i want to reload data.
+            return LocalRedirect("~/Admin/Dashboard");
         }
     }
 }

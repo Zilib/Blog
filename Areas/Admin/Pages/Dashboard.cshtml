@@ -10,7 +10,7 @@
             <img src="~/img/Users/Bielec.jpg" />
         </div>
         <div class="Information">
-            <span>@Model.userInformation.Name  @Model.userInformation.Surname</span>
+            <span>@Model.UserName  @Model.UserSurname</span>
         </div>
         <nav class="navigation">
             <ul>
@@ -25,8 +25,9 @@
         <hr />
 
         <form method="post">
-            Imię: <input asp-for="userInformation.Name"/>
-            Nazwisko: <input asp-for="userInformation.Surname"/>
+            <div asp-validation-summary="All" class="Danger"></div>
+            Imię: <input asp-for="Input.NewName" />
+            Nazwisko: <input asp-for="Input.NewSurname" />
             <button type="submit">Aktualizuj!</button>
         </form>
     </main>

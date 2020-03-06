@@ -84,7 +84,8 @@ namespace Blog.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    // Redirect to admin dashboard
+                    return LocalRedirect("~/Admin/Dashboard");
                 }
                 if (result.RequiresTwoFactor)
                 {

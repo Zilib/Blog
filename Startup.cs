@@ -33,8 +33,8 @@ namespace Blog
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(25);
 
-                options.LoginPath = "/Login";
-                options.LogoutPath = "/Logout";
+                options.LoginPath = "/Admin/Login";
+                options.LogoutPath = "/Admin/Logout";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
