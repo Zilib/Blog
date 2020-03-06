@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Areas.Identity.Data;
 using Blog.Areas.Identity.Pages.Account;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,6 +31,7 @@ namespace Blog.Areas.Admin
         public string UserName { get; set; }
         public string UserSurname { get; set; }
         public DateTime UserBirthDate { get; set; }
+
         #endregion
 
         #region Input Data Model
