@@ -15,29 +15,53 @@ namespace Blog.Areas.Admin
 {
     public class DashboardModel : PageModel
     {
+        #region Construct
+
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
-
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-
-        [BindProperty]
-        public InputModel Input { get; set; }
-
         public DashboardModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
         {
             _userManager = userManager;
             _logger = logger;
         }
 
+        #endregion
+
+        #region User informations
+
+        public string UserName { get; set; }
+        public string UserSurname { get; set; }
+        public DateTime UserBirthDate { get; set; }
+        #endregion
+
+        #region Input Data Model
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
         public class InputModel
         {
             [Required]
             [Display(Name = "Imie")]
             public string NewName { get; set; }
+
             [Required]
             [Display(Name = "Nazwisko")]
             public string NewSurname { get; set; }
+
+            [Required]
+            [Display(Name = "Data Urodzenia")]
+            [DataType(DataType.Date)]
+            public DateTime NewBirthDate { get; set; }
+        }
+
+        #endregion
+
+        private void SetUserData(BlogUser user)
+        {
+            UserName = user.Name;
+            UserSurname = user.Surname;
+            UserBirthDate = user.BirthDate;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -49,13 +73,13 @@ namespace Blog.Areas.Admin
                 return LocalRedirect("~/Admin/Login");
             }
 
-            UserName = user.Name;
-            UserSurname = user.Surname;
+            SetUserData(user);
 
             Input = new InputModel
             {
                 NewName = user.Name,
-                NewSurname = user.Surname
+                NewSurname = user.Surname,
+                NewBirthDate = user.BirthDate
             };
             
             return Page();
@@ -72,22 +96,26 @@ namespace Blog.Areas.Admin
 
             if (!ModelState.IsValid)
             {
-                UserName = user.Name;
-                UserSurname = user.Surname;
+                SetUserData(user);
 
                 return Page();
             }
 
             #region Input Validation
 
-            if (Input.NewName != user.Name && Input.NewName != string.Empty)
+            if (Input.NewName != user.Name)
             {
                 user.Name = Input.NewName;
             }
 
-            if (Input.NewSurname != user.Surname && Input.NewSurname != string.Empty)
+            if (Input.NewSurname != user.Surname)
             {
                 user.Surname = Input.NewSurname;
+            }
+
+            if (Input.NewBirthDate != user.BirthDate)
+            {
+                user.BirthDate = Input.NewBirthDate;
             }
 
             #endregion
