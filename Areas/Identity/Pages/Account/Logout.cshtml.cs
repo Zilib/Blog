@@ -37,7 +37,7 @@ namespace Blog.Areas.Identity.Pages.Account
             }
             else
             {
-                return RedirectToPage();
+                return LocalRedirect("~/Admin/Login");
             }
         }
     }

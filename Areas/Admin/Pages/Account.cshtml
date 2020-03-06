@@ -1,5 +1,5 @@
 ﻿@page
-@model DashboardModel
+@model AccountModel
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,16 +12,22 @@
         <div class="Information">
             <span>@Model.UserName  @Model.UserSurname</span>
         </div>
-        <nav class="navigation">
+        <nav class="Navigation">
             <ul>
                 <li><a href="#">Konto</a></li>
                 <li><a href="#">Dodaj użytkownika</a></li>
                 <li><a href="#">Zarządzaj blogiem</a></li>
             </ul>
+            <form class="Logout"
+                  asp-area="Identity" 
+                  asp-page="/Account/Logout"
+                  method="post">
+                <button type="submit">Wyloguj się</button>
+            </form>
         </nav>
     </sidebar>
     <main>
-        <h1>Witaj </h1>
+        <h1>Witaj @Model.UserName</h1>
         <hr />
 
         <form method="post">

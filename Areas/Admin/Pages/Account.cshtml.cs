@@ -12,13 +12,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Blog.Areas.Admin
 {
-    public class DashboardModel : PageModel
+    public class AccountModel : PageModel
     {
         #region Construct
 
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
-        public DashboardModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
+        public AccountModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
         {
             _userManager = userManager;
             _logger = logger;
