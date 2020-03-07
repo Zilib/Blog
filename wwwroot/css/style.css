@@ -153,70 +153,31 @@ html {
     transform: translateX(0); }
 
 .Login {
-  padding-top: 50px;
   width: 80%;
-  margin-left: 10%; }
-  .Login h1 {
+  height: 100vh;
+  display: flex;
+  margin-left: 10%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center; }
+  .Login .Login-Form h1 {
     text-align: center;
-    font-size: 10rem;
-    font-weight: 500;
-    margin-bottom: 40px; }
+    font-size: 7rem;
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 100;
+    display: block;
+    width: 100%; }
+    .Login .Login-Form h1:first-letter {
+      font-weight: 500; }
   .Login .Login-Form .Danger ul {
     text-align: center;
     color: #F00;
-    font-size: 3rem;
+    font-size: 2rem;
     list-style-position: inside; }
   .Login .Login-Form section form h4 {
-    font-size: 4rem;
+    font-size: 2.5rem;
     font-weight: 400;
     padding: 10px; }
-  .Login .Login-Form section form .form-group {
-    display: flex;
-    width: 60%;
-    margin: 10px 20%;
-    justify-content: flex-end;
-    flex-wrap: wrap; }
-    .Login .Login-Form section form .form-group label {
-      box-sizing: border-box;
-      font-size: 3rem;
-      font-weight: 300;
-      padding-right: 10px;
-      width: 30%;
-      text-align: right; }
-    .Login .Login-Form section form .form-group .Danger {
-      color: red;
-      font-size: 1.6rem;
-      text-align: right;
-      margin-top: 5px; }
-    .Login .Login-Form section form .form-group input {
-      margin: 0;
-      padding: 0;
-      width: 70%;
-      box-sizing: border-box;
-      transition: 2s;
-      font-size: 3rem;
-      padding: 3.75px;
-      border-color: rgba(0, 0, 0, 0.1);
-      transition: 250ms;
-      font-weight: 300 !important; }
-      .Login .Login-Form section form .form-group input:focus {
-        outline: none; }
-      .Login .Login-Form section form .form-group input:hover {
-        outline: none;
-        border-color: rgba(0, 0, 0, 0.4); }
-    .Login .Login-Form section form .form-group button[type=submit] {
-      width: 50%;
-      margin: 3% 25% 0 25%;
-      padding: 10px;
-      color: white;
-      font-size: 3rem;
-      border: none;
-      background: dodgerblue;
-      box-shadow: 0 0 0 transparent;
-      transition: 250ms; }
-      .Login .Login-Form section form .form-group button[type=submit]:hover {
-        cursor: pointer;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }
 
 .Dashboard sidebar {
   height: 100vh;
@@ -301,3 +262,53 @@ html {
 
 .Dashboard main {
   padding-left: 320px; }
+
+.form-group {
+  display: flex;
+  width: 90%;
+  margin: 10px 5%;
+  justify-content: flex-end;
+  flex-wrap: wrap; }
+  .form-group label {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 300;
+    padding-right: 10px;
+    width: 30%; }
+  .form-group .Danger {
+    color: red;
+    font-size: 1.6rem;
+    text-align: right;
+    margin-top: 5px; }
+  .form-group input[type=text], .form-group input[type=password], .form-group input[type=email] {
+    margin: 0;
+    padding: 0;
+    width: 70%;
+    box-sizing: border-box;
+    transition: 2s;
+    font-size: 3rem;
+    padding: 3.75px;
+    border-color: rgba(0, 0, 0, 0.1);
+    transition: 250ms;
+    font-weight: 300 !important; }
+    .form-group input[type=text]:focus, .form-group input[type=password]:focus, .form-group input[type=email]:focus {
+      outline: none; }
+    .form-group input[type=text]:hover, .form-group input[type=password]:hover, .form-group input[type=email]:hover {
+      outline: none;
+      border-color: rgba(0, 0, 0, 0.4); }
+  .form-group button[type=submit] {
+    width: 50%;
+    margin: 3% 25% 0 25%;
+    padding: 10px;
+    color: white;
+    font-size: 3rem;
+    border: none;
+    background: dodgerblue;
+    box-shadow: 0 0 0 transparent;
+    transition: 250ms; }
+    .form-group button[type=submit]:hover {
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }

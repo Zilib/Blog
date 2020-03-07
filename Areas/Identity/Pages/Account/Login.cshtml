@@ -5,14 +5,14 @@
     ViewData["Title"] = "Zaloguj się";
 }
 <div class="Login">
-    <h1>@ViewData["Title"]</h1>
     <div class="Login-Form">
+    <h1>@ViewData["Title"]</h1>
         <section>
             <form id="account" method="post">
                 <h4>Użyj lokalnego konta aby się zalogować.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="Danger"></div> <!--TODO-->
-                <div class="form-group" style="margin-top:40px;">
+                <div class="form-group">
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" />
                     <br />

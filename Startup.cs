@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Blog.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +46,9 @@ namespace Blog
             #region Razor Configuration
 
             services.AddRazorPages()
+                .AddRazorPagesOptions(options => {
+                    options.Conventions.AddPageRoute("/Blog/Index", "");
+                }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddRazorRuntimeCompilation();
 
             #endregion
@@ -74,10 +77,6 @@ namespace Blog
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Blog}/{action=Index}/{id?}");
-
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });

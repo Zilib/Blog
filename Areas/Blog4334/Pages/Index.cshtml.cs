@@ -1,25 +1,40 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Areas.Identity.Data;
-using Blog.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Blog.Controllers
+namespace Blog.Areas.Blog
 {
-    public class BlogController : Controller
+    public class IndexModel : PageModel
     {
-        UserManager<BlogUser> _userManager;
-        public BlogController(UserManager<BlogUser> userManager)
+        private readonly UserManager<BlogUser> _userManager;
+        public List<Post> Posts { get; set;}
+        public class Post
         {
-            _userManager = userManager;
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public string ImgSrc { get; set; }
+            public string ImgAlt { get; set; }
+            public DateTime PublishTime { get; set; }
+            public string AuthorId { get; set; }
+            [ForeignKey("AuthorId")]
+            public BlogUser Author { get; set; }
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public IndexModel(UserManager<BlogUser> userManager)
         {
-            List<Post> Posts = new List<Post>()
+            _userManager = userManager;
+
+        }
+        public async Task<IActionResult> OnGetAsync()
+        {
+            Posts = new List<Post>()
             {
                 new Post() {
                     Title = "Lorem Ipsum",
@@ -29,7 +44,8 @@ namespace Blog.Controllers
                     PublishTime = DateTime.Now
                 }
             };
-            return View("HomePage", Posts);
+
+            return Page();
         }
     }
 }

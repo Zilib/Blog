@@ -204,107 +204,53 @@ html {
         }
     }
 }
+
 //* Identity *//
 .Login {
-    padding-top: 50px;
     width: 80%;
+    height:100vh;
+    display:flex;
     margin-left: 10%;
-
-    h1 {
-        text-align: center;
-        font-size: 10rem;
-        font-weight: 500;
-        margin-bottom: 40px;
-    }
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
 
     .Login-Form {
+
+        h1 {
+        text-align: center;
+        font-size: 7rem;
+        color:rgba(0,0,0,.8);
+        font-weight: 100;
+        display:block;
+        width:100%;
+        &:first-letter {
+            font-weight:500;
+        }
+    }
+
         .Danger {
             ul {
                 text-align:center;
                 color:#F00;
-                font-size:3rem;
+                font-size:2rem;
                 list-style-position:inside;
             }
         }
         section {
             form {
                 h4 {
-                    font-size: 4rem;
+                    font-size: 2.5rem;
                     font-weight: 400;
                     padding: 10px;
                 }
 
-                .form-group {
-                    display: flex;
-                    width: 60%;
-                    margin: 10px 20%;
-                    justify-content: flex-end;
-                    flex-wrap: wrap;
-
-                    label {
-                        box-sizing: border-box;
-                        font-size: 3rem;
-                        font-weight: 300;
-                        padding-right: 10px;
-                        width: 30%;
-                        text-align: right;
-                    }
-
-                    .Danger {
-                        color: red;
-                        font-size: 1.6rem;
-                        text-align: right;
-                        margin-top: 5px;
-                    }
-
-                    input {
-                        &:focus {
-                            outline: none;
-                        }
-
-                        margin: 0;
-                        padding: 0;
-                        width: 70%;
-                        box-sizing: border-box;
-                        // margin-right: 30px;
-                        transition: 2s;
-                        font-size: 3rem;
-                        padding: 3.75px;
-                        border-color: rgba(0,0,0,.1);
-                        transition: 250ms;
-                        font-weight: 300 !important;
-
-                        &:hover {
-                            outline: none;
-                            border-color: rgba(0,0,0,.4);
-                        }
-                    }
-
-                    button {
-                        &[type=submit] {
-                            width: 50%;
-                            margin: 3% 25% 0 25%;
-                            padding: 10px;
-                            color: rgb(255,255,255);
-                            font-size: 3rem;
-                            border: none;
-                            background: dodgerblue;
-                            box-shadow: 0 0 0 rgba(0,0,0,0);
-                            transition: 250ms;
-
-                            &:hover {
-                                cursor: pointer;
-                                box-shadow: 0 0 5px rgba(0,0,0,.8);
-                            }
-                        }
-                    }
-                }
             }
         }
     }
 }
 
-//* Dashboard *//
+//* Account *//
 .Dashboard {
     sidebar {
         height: 100vh;
@@ -426,5 +372,74 @@ html {
     main {
         // 300 because of 250px is sidebar, and 50px is navbar button sidebar, and 20px as margin
         padding-left:320px;
+    }
+}
+
+//* Global css *//
+.form-group {
+    display: flex;
+    width: 90%;
+    margin: 10px 5%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    label {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 2rem;
+        font-weight: 300;
+        padding-right: 10px;
+        width: 30%;
+    }
+
+    .Danger {
+        color: red;
+        font-size: 1.6rem;
+        text-align: right;
+        margin-top: 5px;
+    }
+
+    input[type=text],input[type=password],input[type=email] {
+        &:focus {
+            outline: none;
+        }
+
+        margin: 0;
+        padding: 0;
+        width: 70%;
+        box-sizing: border-box;
+        // margin-right: 30px;
+        transition: 2s;
+        font-size: 3rem;
+        padding: 3.75px;
+        border-color: rgba(0,0,0,.1);
+        transition: 250ms;
+        font-weight: 300 !important;
+
+        &:hover {
+            outline: none;
+            border-color: rgba(0,0,0,.4);
+        }
+    }
+
+    button {
+        &[type=submit] {
+            width: 50%;
+            margin: 3% 25% 0 25%;
+            padding: 10px;
+            color: rgb(255,255,255);
+            font-size: 3rem;
+            border: none;
+            background: dodgerblue;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+            transition: 250ms;
+
+            &:hover {
+                cursor: pointer;
+                box-shadow: 0 0 5px rgba(0,0,0,.8);
+            }
+        }
     }
 }

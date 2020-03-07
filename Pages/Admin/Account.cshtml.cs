@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace Blog.Areas.Admin
+namespace Blog.Admin
 {
     public class AccountModel : PageModel
     {
@@ -70,7 +70,8 @@ namespace Blog.Areas.Admin
 
             if (user == null)
             {
-                return LocalRedirect("~/Admin/Login");
+                return RedirectToRoute("~/Admin/Login");
+                //return LocalRedirect("~/Admin/Login");
             }
 
             SetUserData(user);
@@ -91,7 +92,8 @@ namespace Blog.Areas.Admin
 
             if (user == null)
             {
-                return LocalRedirect("~/Admin/Login");
+                return RedirectToPage("/Admin/Login");
+                //return LocalRedirect("~/Admin/Login");
             }
 
             if (!ModelState.IsValid)
