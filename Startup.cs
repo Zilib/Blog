@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Areas.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,15 +44,28 @@ namespace Blog
 
             #endregion
 
+            #region Database
+
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("ApplicationContextConnection")));
+
+            services.AddDefaultIdentity<BlogUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationContext>();
+
+            #endregion
+
             #region Razor Configuration
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(options => {
-                    options.Conventions.AddPageRoute("/Blog/Index", "");
+                    options.RootDirectory = "/Content";
+                    options.Conventions.AddAreaPageRoute("Blog", "/Index", "/");
                 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddRazorRuntimeCompilation();
 
             #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

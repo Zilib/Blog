@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blog.Areas.Identity.Data;
+using Blog.Areas.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace Blog.Areas.Identity.Pages.Account
+namespace Blog.Areas.Admin
 {
     [AllowAnonymous]
     public class LogoutModel : PageModel

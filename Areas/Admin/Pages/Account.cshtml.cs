@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Blog.Areas.Identity.Data;
-using Blog.Areas.Identity.Pages.Account;
+using Blog.Areas.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace Blog.Admin
+namespace Blog.Areas.Admin
 {
     public class AccountModel : PageModel
     {
@@ -125,7 +124,7 @@ namespace Blog.Admin
             await _userManager.UpdateAsync(user);
 
             // Local redirect because, i want to reload data.
-            return LocalRedirect("~/Admin/Dashboard");
+            return LocalRedirect("~/Admin/Account");
         }
     }
 }

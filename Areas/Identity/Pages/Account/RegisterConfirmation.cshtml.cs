@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Identity;
-using Blog.Areas.Identity.Data;
+using Blog.Areas.Data;
 
 namespace Blog.Areas.Identity.Pages.Account
 {

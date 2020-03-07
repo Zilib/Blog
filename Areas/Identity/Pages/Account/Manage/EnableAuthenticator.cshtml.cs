@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Blog.Areas.Identity.Data;
+using Blog.Areas.Data;
 
 namespace Blog.Areas.Identity.Pages.Account.Manage
 {

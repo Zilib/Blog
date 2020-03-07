@@ -1,8 +1,9 @@
 ﻿@page
-@model Blog.Areas.Blog.IndexModel
+@model IndexModel
 @{
-    ViewData["Title"] = "Homepage";
+    ViewData["Title"] = "Index";
 }
+
 
 <div class="Blog">
     <!-- It is invisible firslty-->
@@ -28,7 +29,7 @@
                             <div class="Author">
                                 @if (@Model.Posts[0].Author.Name != string.Empty && @Model.Posts[0].Author.Surname != string.Empty)
                                 {
-                                <span>@Model.Posts[0].Author.Name @Model.Posts[0].Author.Surname</span>
+                                    <span>@Model.Posts[0].Author.Name @Model.Posts[0].Author.Surname</span>
                                 }
                                 else
                                 {
