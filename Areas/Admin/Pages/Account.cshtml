@@ -1,9 +1,9 @@
 ﻿@page
 @model AccountModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Konto";
 }
-<div class="Dashboard">
+<div class="Account">
     <sidebar id="sidebar">
         <div class="Avatar">
             <img src="~/img/Users/Bielec.jpg" />
@@ -13,12 +13,14 @@
         </div>
         <nav class="Navigation">
             <ul>
-                <li><a href="#">Konto</a></li>
+                <li><a asp-area="Admin"
+                       asp-page="Account">Konto</a></li>
                 <li><a href="#">Dodaj użytkownika</a></li>
                 <li><a href="#">Zarządzaj blogiem</a></li>
             </ul>
             <form class="Logout" 
-                  asp-page="/Admin/Logout"
+                  asp-area="Admin"
+                  asp-page="/Logout"
                   method="post">
                 <button type="submit">Wyloguj się</button>
             </form>
@@ -27,13 +29,24 @@
     <main>
         <h1>Witaj @Model.UserName</h1>
         <hr />
-
+        <h2>Edytuj swoje dane</h2>
         <form method="post">
             <div asp-validation-summary="All" class="Danger"></div>
-            Imię: <input asp-for="Input.NewName" />
-            Nazwisko: <input asp-for="Input.NewSurname" />
-            Data urodzenia: <input asp-for="Input.NewBirthDate" />
-            <button type="submit">Aktualizuj!</button>
+            <div class="form-group">
+                <label asp-for="Input.NewName"></label> 
+                <input asp-for="Input.NewName" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.NewSurname"></label> 
+                <input asp-for="Input.NewSurname" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.NewBirthDate"></label>
+                <input asp-for="Input.NewBirthDate" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Aktualizuj!</button>
+            </div>
         </form>
     </main>
 </div>

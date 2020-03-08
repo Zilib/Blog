@@ -69,8 +69,7 @@ namespace Blog.Areas.Admin
 
             if (user == null)
             {
-                return RedirectToRoute("~/Admin/Login");
-                //return LocalRedirect("~/Admin/Login");
+                return RedirectToPage("/Login", new { area = "Admin" });
             }
 
             SetUserData(user);
@@ -91,8 +90,7 @@ namespace Blog.Areas.Admin
 
             if (user == null)
             {
-                return RedirectToPage("/Admin/Login");
-                //return LocalRedirect("~/Admin/Login");
+                return RedirectToPage("/Login", new { area = "Admin" });
             }
 
             if (!ModelState.IsValid)
@@ -124,7 +122,7 @@ namespace Blog.Areas.Admin
             await _userManager.UpdateAsync(user);
 
             // Local redirect because, i want to reload data.
-            return LocalRedirect("~/Admin/Account");
+            return RedirectToPage("/Account", new { area = "Admin" });
         }
     }
 }

@@ -179,7 +179,7 @@ html {
     font-weight: 400;
     padding: 10px; }
 
-.Dashboard sidebar {
+.Account sidebar {
   height: 100vh;
   width: 250px;
   background: #333;
@@ -189,17 +189,17 @@ html {
   box-shadow: 4px 0 7px rgba(0, 0, 0, 0.5);
   transform: translateX(-100%);
   transition: 500ms; }
-  .Dashboard sidebar .Avatar {
+  .Account sidebar .Avatar {
     margin: 30px 0 30px 0;
     position: relative; }
-    .Dashboard sidebar .Avatar img {
+    .Account sidebar .Avatar img {
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
       width: 80%;
       margin-left: 10%;
       border-radius: 100%;
       position: relative;
       z-index: 1; }
-    .Dashboard sidebar .Avatar:after {
+    .Account sidebar .Avatar:after {
       content: '';
       display: block;
       position: absolute;
@@ -211,18 +211,18 @@ html {
       background: rgba(0, 0, 0, 0.2);
       z-index: 1000;
       transition: 250ms; }
-    .Dashboard sidebar .Avatar:hover:after {
+    .Account sidebar .Avatar:hover:after {
       background: transparent; }
-  .Dashboard sidebar .Information {
+  .Account sidebar .Information {
     color: #FFF;
     text-align: center;
     font-size: 3rem;
     font-weight: 300;
     margin-bottom: 40px; }
-  .Dashboard sidebar .Navigation ul {
+  .Account sidebar .Navigation ul {
     margin: 0;
     padding: 0; }
-    .Dashboard sidebar .Navigation ul li {
+    .Account sidebar .Navigation ul li {
       display: block;
       width: 100%;
       list-style: none;
@@ -230,38 +230,45 @@ html {
       text-align: center;
       padding: 10px 0;
       border-bottom: solid 1px rgba(255, 255, 255, 0.3); }
-      .Dashboard sidebar .Navigation ul li a {
+      .Account sidebar .Navigation ul li a {
         color: #FFF;
         text-decoration: none; }
-  .Dashboard sidebar .Navigation .Logout {
+  .Account sidebar .Navigation .Logout {
     margin-top: 10px;
     display: flex;
     align-content: center;
     justify-content: center;
     width: 100%; }
-    .Dashboard sidebar .Navigation .Logout button[type=submit] {
+    .Account sidebar .Navigation .Logout button[type=submit] {
       margin-left: auto;
       margin-right: auto;
       background: transparent;
       border: none;
       color: #FFF;
       font-size: 2rem; }
-      .Dashboard sidebar .Navigation .Logout button[type=submit]:hover {
+      .Account sidebar .Navigation .Logout button[type=submit]:hover {
         cursor: pointer; }
-      .Dashboard sidebar .Navigation .Logout button[type=submit]:focus {
+      .Account sidebar .Navigation .Logout button[type=submit]:focus {
         outline: none; }
-  .Dashboard sidebar:hover {
+  .Account sidebar:hover {
     transform: translate(0); }
 
-.Dashboard h1:first-child {
+.Account h1:first-child {
   font-size: 6rem;
   font-weight: 300; }
 
-.Dashboard h1 b {
+.Account h1 b {
   font-weight: 400; }
 
-.Dashboard main {
-  padding-left: 320px; }
+.Account main {
+  width: 80%;
+  margin-left: 10%; }
+  .Account main h2 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    text-align: left;
+    margin-left: 50px;
+    margin-top: 30px; }
 
 .form-group {
   display: flex;
@@ -283,20 +290,20 @@ html {
     font-size: 1.6rem;
     text-align: right;
     margin-top: 5px; }
-  .form-group input[type=text], .form-group input[type=password], .form-group input[type=email] {
+  .form-group input[type=text], .form-group input[type=password], .form-group input[type=email], .form-group input[type=date] {
     margin: 0;
     padding: 0;
     width: 70%;
     box-sizing: border-box;
     transition: 2s;
-    font-size: 3rem;
+    font-size: 2rem;
     padding: 3.75px;
     border-color: rgba(0, 0, 0, 0.1);
     transition: 250ms;
     font-weight: 300 !important; }
-    .form-group input[type=text]:focus, .form-group input[type=password]:focus, .form-group input[type=email]:focus {
+    .form-group input[type=text]:focus, .form-group input[type=password]:focus, .form-group input[type=email]:focus, .form-group input[type=date]:focus {
       outline: none; }
-    .form-group input[type=text]:hover, .form-group input[type=password]:hover, .form-group input[type=email]:hover {
+    .form-group input[type=text]:hover, .form-group input[type=password]:hover, .form-group input[type=email]:hover, .form-group input[type=date]:hover {
       outline: none;
       border-color: rgba(0, 0, 0, 0.4); }
   .form-group button[type=submit] {

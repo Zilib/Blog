@@ -251,7 +251,7 @@ html {
 }
 
 //* Account *//
-.Dashboard {
+.Account {
     sidebar {
         height: 100vh;
         width: 250px;
@@ -370,8 +370,16 @@ html {
     }
 
     main {
-        // 300 because of 250px is sidebar, and 50px is navbar button sidebar, and 20px as margin
-        padding-left:320px;
+        width:80%;
+        margin-left:10%;
+
+        h2 {
+            font-size:3.5rem;
+            font-weight:300;
+            text-align:left;
+            margin-left:50px;
+            margin-top:30px;
+        }
     }
 }
 
@@ -401,7 +409,7 @@ html {
         margin-top: 5px;
     }
 
-    input[type=text],input[type=password],input[type=email] {
+    input[type=text],input[type=password],input[type=email],input[type=date] {
         &:focus {
             outline: none;
         }
@@ -412,7 +420,7 @@ html {
         box-sizing: border-box;
         // margin-right: 30px;
         transition: 2s;
-        font-size: 3rem;
+        font-size: 2rem;
         padding: 3.75px;
         border-color: rgba(0,0,0,.1);
         transition: 250ms;
