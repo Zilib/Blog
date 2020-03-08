@@ -15,6 +15,8 @@ namespace Blog.Areas.Data
         {
         }
 
+        public DbSet<Post> Posts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

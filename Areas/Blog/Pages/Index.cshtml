@@ -27,9 +27,9 @@
                         </div>
                         <div class="Article--information">
                             <div class="Author">
-                                @if (@Model.Posts[0].Author.Name != string.Empty && @Model.Posts[0].Author.Surname != string.Empty)
+                                @if (@Model.Posts[0]?.Author?.Name != string.Empty && @Model.Posts[0]?.Author?.Surname != string.Empty)
                                 {
-                                    <span>@Model.Posts[0].Author.Name @Model.Posts[0].Author.Surname</span>
+                                    <span>@Model.Posts[0]?.Author?.Name @Model.Posts[0]?.Author?.Surname</span>
                                 }
                                 else
                                 {
@@ -37,7 +37,7 @@
                                 }
                             </div>
                             <div class="PublishTime">
-                                <span>@Model.Posts[0].PublishTime</span>
+                                <span>@Model.Posts[0].PublishTime.ToString("dd/MM/yyyy")</span>
                             </div>
                         </div>
                         <div class="Content">
