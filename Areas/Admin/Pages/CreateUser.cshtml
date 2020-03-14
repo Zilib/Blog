@@ -4,4 +4,41 @@
 }
 <div class="CreateUser">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
+    <main>
+        <h1>Stwórz nowego użytkownika</h1>
+        <form method="post">
+            <div asp-validation-summary="All" class="Danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.NickName"></label>
+                <input asp-for="Input.NickName"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Surname"></label>
+                <input asp-for="Input.Surname" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.BirthDate"></label>
+                <input asp-for="Input.BirthDate" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.MobilePhone"></label>
+                <input asp-for="Input.MobilePhone" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Stwórz użytkownika</button>
+            </div>
+        </form>
+    </main>
 </div>

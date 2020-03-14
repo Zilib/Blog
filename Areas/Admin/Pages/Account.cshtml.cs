@@ -19,6 +19,7 @@ namespace Blog.Areas.Admin
         private readonly ILogger<LoginModel> _logger;
 
         #endregion
+
         #region Construct
 
         public AccountModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)

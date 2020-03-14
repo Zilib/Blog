@@ -196,6 +196,15 @@ html {
     margin-left: 50px;
     margin-top: 30px; }
 
+.CreateUser main {
+  width: 80%;
+  margin-left: 10%; }
+  .CreateUser main h1:first-child {
+    font-size: 6rem;
+    font-weight: 300; }
+  .CreateUser main h1 b {
+    font-weight: 400; }
+
 .form-group {
   display: flex;
   width: 90%;
@@ -216,7 +225,11 @@ html {
     font-size: 1.6rem;
     text-align: right;
     margin-top: 5px; }
-  .form-group input[type=text], .form-group input[type=password], .form-group input[type=email], .form-group input[type=date] {
+  .form-group input[type=text],
+  .form-group input[type=password],
+  .form-group input[type=email],
+  .form-group input[type=date],
+  .form-group input[type=tel] {
     margin: 0;
     padding: 0;
     width: 70%;
@@ -227,24 +240,19 @@ html {
     border-color: rgba(0, 0, 0, 0.1);
     transition: 250ms;
     font-weight: 300 !important; }
-    .form-group input[type=text]:focus, .form-group input[type=password]:focus, .form-group input[type=email]:focus, .form-group input[type=date]:focus {
+    .form-group input[type=text]:focus,
+    .form-group input[type=password]:focus,
+    .form-group input[type=email]:focus,
+    .form-group input[type=date]:focus,
+    .form-group input[type=tel]:focus {
       outline: none; }
-    .form-group input[type=text]:hover, .form-group input[type=password]:hover, .form-group input[type=email]:hover, .form-group input[type=date]:hover {
+    .form-group input[type=text]:hover,
+    .form-group input[type=password]:hover,
+    .form-group input[type=email]:hover,
+    .form-group input[type=date]:hover,
+    .form-group input[type=tel]:hover {
       outline: none;
       border-color: rgba(0, 0, 0, 0.4); }
-  .form-group button[type=submit] {
-    width: 50%;
-    margin: 3% 25% 0 25%;
-    padding: 10px;
-    color: white;
-    font-size: 3rem;
-    border: none;
-    background: dodgerblue;
-    box-shadow: 0 0 0 transparent;
-    transition: 250ms; }
-    .form-group button[type=submit]:hover {
-      cursor: pointer;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }
 
 #sidebar {
   height: 100vh;
@@ -319,3 +327,19 @@ html {
         outline: none; }
   #sidebar:hover {
     transform: translate(0); }
+
+.btn {
+  width: 50%;
+  margin: 3% 25% 0 25%;
+  padding: 10px;
+  font-size: 3rem;
+  border: none;
+  box-shadow: 0 0 0 transparent;
+  transition: 250ms; }
+  .btn:hover {
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }
+
+.btn-primary {
+  background: dodgerblue;
+  color: #FFF; }

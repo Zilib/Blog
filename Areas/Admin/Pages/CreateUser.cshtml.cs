@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Areas.Data;
@@ -16,6 +17,12 @@ namespace Blog.Areas.Admin.Pages
 
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+
+        #endregion
+
+        #region Public variables 
+        
+        public InputModel Input { get; set; }
 
         #endregion
 
@@ -44,6 +51,45 @@ namespace Blog.Areas.Admin.Pages
         }
 
         #endregion
+
+        public class InputModel
+        {
+            #region Required
+
+            [Required]
+            [Display(Name = "Nazwa u¿ytkownika")]
+            public string NickName { get; set; }
+
+            [Required]
+            [DataType(DataType.EmailAddress)]
+            [Display(Name = "Email")]
+            public string Email { get; set; }
+
+            [Required]
+            [DataType(DataType.Password)]
+            [Display(Name = "Has³o")]
+            public string Password { get; set; }
+
+            [Required]
+            [Display(Name = "Imiê")]
+            public string Name { get; set; }
+
+            [Required]
+            [Display(Name = "Nazwisko")]
+            public string Surname { get; set; }
+
+            [Required]
+            [Display(Name = "Data urodzenia")]
+            [DataType(DataType.Date)]
+            public DateTime BirthDate { get; set; }
+
+            #endregion
+
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "Nr. Telefonu")]
+            public string MobilePhone { get; set; }
+            
+        }
 
         public async Task<IActionResult> OnGetAsync()
         {
