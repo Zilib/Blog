@@ -4,28 +4,7 @@
     ViewData["Title"] = "Konto";
 }
 <div class="Account">
-    <sidebar id="sidebar">
-        <div class="Avatar">
-            <img src="~/img/Users/Bielec.jpg" />
-        </div>
-        <div class="Information">
-            <span>@Model.UserName  @Model.UserSurname</span>
-        </div>
-        <nav class="Navigation">
-            <ul>
-                <li><a asp-area="Admin"
-                       asp-page="Account">Konto</a></li>
-                <li><a href="#">Dodaj użytkownika</a></li>
-                <li><a href="#">Zarządzaj blogiem</a></li>
-            </ul>
-            <form class="Logout" 
-                  asp-area="Admin"
-                  asp-page="/Logout"
-                  method="post">
-                <button type="submit">Wyloguj się</button>
-            </form>
-        </nav>
-    </sidebar>
+    <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <main>
         <h1>Witaj @Model.UserName</h1>
         <hr />

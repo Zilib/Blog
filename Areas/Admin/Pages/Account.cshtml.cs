@@ -13,10 +13,14 @@ namespace Blog.Areas.Admin
 {
     public class AccountModel : PageModel
     {
-        #region Construct
+        #region Private variables
 
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+
+        #endregion
+        #region Construct
+
         public AccountModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
         {
             _userManager = userManager;
@@ -30,6 +34,12 @@ namespace Blog.Areas.Admin
         public string UserName { get; set; }
         public string UserSurname { get; set; }
         public DateTime UserBirthDate { get; set; }
+        private void SetUserData(BlogUser user)
+        {
+            UserName = user.Name;
+            UserSurname = user.Surname;
+            UserBirthDate = user.BirthDate;
+        }
 
         #endregion
 
@@ -55,13 +65,6 @@ namespace Blog.Areas.Admin
         }
 
         #endregion
-
-        private void SetUserData(BlogUser user)
-        {
-            UserName = user.Name;
-            UserSurname = user.Surname;
-            UserBirthDate = user.BirthDate;
-        }
 
         public async Task<IActionResult> OnGetAsync()
         {
