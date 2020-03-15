@@ -343,3 +343,6 @@ html {
 .btn-primary {
   background: dodgerblue;
   color: #FFF; }
+
+.validation-summary-errors ul li {
+  text-transform: initial; }

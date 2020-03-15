@@ -1,6 +1,7 @@
 ﻿@page
 @model Blog.Areas.Admin.Pages.CreateUserModel
 @{
+    ViewData["Title"] = "Stwórz użytkownika";
 }
 <div class="CreateUser">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
@@ -9,32 +10,39 @@
         <form method="post">
             <div asp-validation-summary="All" class="Danger"></div>
             <div class="form-group">
-                <label asp-for="Input.NickName"></label>
-                <input asp-for="Input.NickName"/>
-            </div>
-            <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" />
+                <span asp-validation-for="Input.ConfirmPassword"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
                 <input asp-for="Input.Name" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Surname"></label>
                 <input asp-for="Input.Surname" />
+                <span asp-validation-for="Input.Surname" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.BirthDate"></label>
                 <input asp-for="Input.BirthDate" />
+                <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.MobilePhone"></label>
                 <input asp-for="Input.MobilePhone" />
+                <span asp-validation-for="Input.MobilePhone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Stwórz użytkownika</button>

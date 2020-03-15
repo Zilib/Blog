@@ -472,7 +472,16 @@ html {
         box-shadow: 0 0 5px rgba(0,0,0,.8);
     }
 }
+
 .btn-primary {
     background:dodgerblue;
     color:#FFF;
+}
+
+.validation-summary-errors {
+    ul {
+        li {
+            text-transform:initial;
+        }
+    }
 }
