@@ -134,6 +134,15 @@ namespace Blog.Areas.Admin.Pages
 
             if (ModelState.IsValid)
             {
+                //Check does any account is assgined to this adress email
+                bool emailInUse = _userManager.FindByEmailAsync(Input.Email) == null ? false : true;
+                if (emailInUse)
+                {
+                    ModelState.AddModelError(string.Empty, "Dany adres email jest ju¿ u¿ywany!");
+                    return Page();
+                }
+
+                // Create new user which will be inserted into table
                 var newUser = new BlogUser
                 {
                     UserName = Input.UserName,
@@ -145,23 +154,23 @@ namespace Blog.Areas.Admin.Pages
                     EmailConfirmed = true
                 };
 
+                // Register user
                 var result = await _userManager.CreateAsync(newUser, Input.Password);
+
+                // if everything is fine
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Wszystko okej, uzytkownik zarejestrowany");
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = newUser.Id, code = code},
-                        protocol: Request.Scheme);
+                    // Show information, user is added correctly
+                    ModelState.AddModelError(string.Empty, "Prawid³owo dodano u¿ytkownika");
+                    return Page();
+                }
 
-                    
-                }
-                else
+                // Add errors
+                foreach (var error in result.Errors)
                 {
-                    _logger.LogInformation("Coœ posz³o nie tak");
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
+
                 return Page();
             }
 

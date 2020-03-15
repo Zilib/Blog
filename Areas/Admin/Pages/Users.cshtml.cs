@@ -15,6 +15,9 @@ namespace Blog.Areas.Admin.Pages
 
         public List<BlogUser> Users;
 
+        [BindProperty]
+        public string UserId { get; set; }
+
         #region User informations
 
         public string UserName { get; set; }

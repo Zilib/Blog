@@ -6,7 +6,23 @@
 <div class="Users">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <table>
-        <tr></tr>
-
+        <tr>
+            <td>Nazwa użytkownika</td>
+            <td>Email</td>
+            <td>Edytuj</td>
+        </tr>
+        @foreach (var User in Model.Users)
+        {
+            <tr>
+                <td>@User.UserName</td>
+                <td>@User.Email</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" asp-for="UserId" />
+                        <button type="submit">X</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </table>
 </div>

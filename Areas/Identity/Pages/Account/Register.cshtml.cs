@@ -76,8 +76,16 @@ namespace Blog.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
+                bool emailInUse = _userManager.FindByEmailAsync(Input.Email) == null ? false : true;
+                if (emailInUse)
+                {   
+                    ModelState.AddModelError(string.Empty, "Dany adres email istnieje");
+                    return Page();
+                }
+
                 var user = new BlogUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
