@@ -48,6 +48,11 @@ namespace Blog.Areas.Admin.Pages
         public string UserName { get; set; }
         public string UserSurname { get; set; }
         public DateTime UserBirthDate { get; set; }
+
+        /// <summary>
+        /// Load data for sidebar
+        /// </summary>
+        /// <param name="user"></param>
         private void SetUserData(BlogUser user)
         {
             UserName = user.Name;
@@ -60,6 +65,11 @@ namespace Blog.Areas.Admin.Pages
         public class InputModel
         {
             #region Required
+            
+            [Required]
+            [Display(Name = "Nazwa u¿ytkownika")]
+            public string UserName { get; set; }
+
             [Required(ErrorMessage = "Pole '{0}' jest wymagane!")]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -120,16 +130,19 @@ namespace Blog.Areas.Admin.Pages
                 return RedirectToPage("/Login", new { area = "Admin" });
             }
 
+            SetUserData(user);
+
             if (ModelState.IsValid)
             {
                 var newUser = new BlogUser
                 {
-                    UserName = Input.Email,
+                    UserName = Input.UserName,
                     Email = Input.Email,
                     Name = Input.Name,
                     Surname = Input.Surname,
                     BirthDate = Input.BirthDate,
-                    PhoneNumber = Input.MobilePhone
+                    PhoneNumber = Input.MobilePhone,
+                    EmailConfirmed = true
                 };
 
                 var result = await _userManager.CreateAsync(newUser, Input.Password);
@@ -144,6 +157,10 @@ namespace Blog.Areas.Admin.Pages
                         protocol: Request.Scheme);
 
                     
+                }
+                else
+                {
+                    _logger.LogInformation("Coœ posz³o nie tak");
                 }
                 return Page();
             }

@@ -44,10 +44,11 @@ namespace Blog.Areas.Admin
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Display(Name = "Login")]
+            public string UserName { get; set; }
 
             [Required]
+            [Display(Name = "Hasło")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -81,7 +82,7 @@ namespace Blog.Areas.Admin
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
