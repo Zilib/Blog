@@ -135,7 +135,8 @@ namespace Blog.Areas.Admin.Pages
             if (ModelState.IsValid)
             {
                 //Check does any account is assgined to this adress email
-                bool emailInUse = _userManager.FindByEmailAsync(Input.Email) == null ? false : true;
+                bool emailInUse = await _userManager.FindByEmailAsync(Input.Email) == null ? false : true;
+
                 if (emailInUse)
                 {
                     ModelState.AddModelError(string.Empty, "Dany adres email jest ju¿ u¿ywany!");

@@ -10,6 +10,7 @@
             <td>Nazwa użytkownika</td>
             <td>Email</td>
             <td>Edytuj</td>
+            <td>Usuń</td>
         </tr>
         @foreach (var User in Model.Users)
         {
@@ -17,9 +18,19 @@
                 <td>@User.UserName</td>
                 <td>@User.Email</td>
                 <td>
-                    <form method="post">
-                        <input type="hidden" asp-for="UserId" />
-                        <button type="submit">X</button>
+                    <form method="post" 
+                          asp-page="UserEdit"
+                          asp-area="Admin">
+                        <input type="hidden" name="UserId" value="@User.Id" />
+                        <button type="submit">Edytuj</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post"
+                          asp-area="Admin"
+                          asp-page="UserDelete">
+                        <input type="hidden" name="UserId" value="@User.Id" />
+                        <button type="submit">Usuń</button>
                     </form>
                 </td>
             </tr>
