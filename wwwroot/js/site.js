@@ -70,3 +70,10 @@ $("#sidebar-expand, #sidebar").on("mouseleave", () => {
         $("sidebar").removeClass("expand");
     }
 });
+
+$(".Users table tbody tr td form").on('submit', () => {
+    if (confirm('Na pewno chcesz usunąć użytkownika?'))
+        return true
+    return false;
+});
+

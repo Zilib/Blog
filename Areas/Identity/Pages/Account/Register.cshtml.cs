@@ -80,6 +80,7 @@ namespace Blog.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 bool emailInUse = await _userManager.FindByEmailAsync(Input.Email) == null ? false : true;
+
                 if (emailInUse)
                 {   
                     ModelState.AddModelError(string.Empty, "Dany adres email istnieje");
