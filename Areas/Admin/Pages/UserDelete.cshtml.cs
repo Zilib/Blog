@@ -15,6 +15,25 @@ namespace Blog.Areas.Admin.Pages
 
         public string Message { get; set; }
 
+        #region User informations
+
+        public string UserName { get; set; }
+        public string UserSurname { get; set; }
+        public DateTime UserBirthDate { get; set; }
+
+        /// <summary>
+        /// Load data for sidebar
+        /// </summary>
+        /// <param name="user"></param>
+        private void SetUserData(BlogUser user)
+        {
+            UserName = user.Name;
+            UserSurname = user.Surname;
+            UserBirthDate = user.BirthDate;
+        }
+
+        #endregion
+
         public UserDeleteModel(UserManager<BlogUser> userManager)
         {
             _userManager = userManager;
@@ -28,6 +47,8 @@ namespace Blog.Areas.Admin.Pages
             {
                 return RedirectToPage("/Login", new { area = "Admin" });
             }
+
+            SetUserData(admin);
 
             if (admin.Id == userId)
             {

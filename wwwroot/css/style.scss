@@ -299,6 +299,16 @@ html {
     }
 }
 
+//* Users *//
+
+.Users {
+    main {
+        margin-top:10px;
+        display:flex;
+        justify-content:center;
+    }
+}
+
 //* Global css *//
 .form-group {
     display: flex;
@@ -459,10 +469,8 @@ html {
 }
 
 .btn {
-    width: 50%;
-    margin: 3% 25% 0 25%;
+    display:block;
     padding: 10px;
-    font-size: 3rem;
     border: none;
     box-shadow: 0 0 0 rgba(0,0,0,0);
     transition: 250ms;
@@ -482,6 +490,53 @@ html {
     ul {
         li {
             text-transform:initial;
+        }
+    }
+}
+
+.text-center {
+    text-align:center;
+}
+
+.w-100 {
+    width:100%;
+}
+// Set every item in center of height and width
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.List {
+    display: flex;
+    flex-wrap: wrap;
+    width:70%;
+
+    .row {
+        width: 100%;
+        display: flex;
+        font-size:2rem;
+        padding:10px;
+
+        .Column-4 {
+            width:calc(100% / 4);
+        }
+        .btn {
+            margin-left:auto;
+            margin-right:auto;
+            width:80%;
+        }
+    }
+
+    .header {
+        font-weight:bold;
+        font-size:3rem;
+        color:rgba(0,0,0,.7);
+        border-bottom:1px solid black;
+        
+        .Column-4 {
+            padding:10px;
         }
     }
 }

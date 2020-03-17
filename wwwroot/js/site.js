@@ -71,9 +71,9 @@ $("#sidebar-expand, #sidebar").on("mouseleave", () => {
     }
 });
 
-$(".Users table tbody tr td form").on('submit', () => {
-    if (confirm('Na pewno chcesz usunąć użytkownika?'))
-        return true
-    return false;
-});
+// Confirm user delete
+$(document).one('click', '.ConfirmButton', () => {
+    var isConfirmed = confirm("Na pewno chcesz usunąć użytkownika?");
 
+    return isConfirmed == true ? true : false;
+});

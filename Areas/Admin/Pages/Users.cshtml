@@ -5,35 +5,73 @@
 
 <div class="Users">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
-    <table>
-        <tr>
-            <td>Nazwa użytkownika</td>
-            <td>Email</td>
-            <td>Edytuj</td>
-            <td>Usuń</td>
-        </tr>
-        @foreach (var User in Model.Users)
-        {
+    <main>
+        <!--<table class="UsersList">
             <tr>
-                <td>@User.UserName</td>
-                <td>@User.Email</td>
-                <td>
-                    <form method="post" 
-                          asp-page="UserEdit"
-                          asp-area="Admin">
-                        <input type="hidden" name="UserId" value="@User.Id" />
-                        <button type="submit">Edytuj</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post"
-                          asp-area="Admin"
-                          asp-page="UserDelete">
-                        <input type="hidden" name="UserId" value="@User.Id" />
-                        <button type="submit" class="confirm">Usuń</button>
-                    </form>
-                </td>
+                <td>Nazwa użytkownika</td>
+                <td>Email</td>
+                <td>Edytuj</td>
+                <td>Usuń</td>
             </tr>
-        }
-    </table>
+            @foreach (var User in Model.Users)
+            {
+                <tr>
+                    <td>@User.UserName</td>
+                    <td>@User.Email</td>
+                    <td>
+                        <form method="post"
+                              asp-page="UserEdit"
+                              asp-area="Admin">
+                            <input type="hidden" name="UserId" value="@User.Id" />
+                            <button type="submit">Edytuj</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post"
+                              asp-area="Admin"
+                              asp-page="UserDelete">
+                            <input type="hidden" name="UserId" value="@User.Id" />
+                            <button type="submit" class="confirm">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>-->
+        <div class="List">
+            <div class="header row">
+                <div class="Column-4 flex-center">Nazwa użytkownika</div>
+                <div class="Column-4 flex-center">Email</div>
+                <div class="Column-4 flex-center">Edytuj</div>
+                <div class="Column-4 flex-center">Usuń</div>
+            </div>
+            @foreach (var item in @Model.Users)
+            {
+                <div class="row">
+                    <div class="Column-4 flex-center">@item.Name</div>
+                    <div class="Column-4 flex-center">@item.Email</div>
+                    <div class="Column-4 flex-center">
+                        <form method="post" class="w-100">
+                            <button type="submit"
+                                asp-area="Admin"
+                                asp-page="UserEdit"
+                                value="@item.Id"
+                                name="UserId"
+                                class="btn btn-primary">Edytuj</button>
+                        </form>
+                    </div>
+                    <div class="Column-4 flex-center ConfirmForm">
+                        <form method="post" class="w-100 ConfirmForm">
+                            <button type="submit"
+                                asp-area="Admin"
+                                asp-page="UserDelete"
+                                name="UserId"
+                                value="@item.Id"
+                                class="btn btn-primary ConfirmButton">Usuń</button>
+                        </form>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </main>
 </div>
