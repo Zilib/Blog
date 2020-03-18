@@ -109,28 +109,19 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var admin = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (user == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
-
-            SetUserData(user);
+            SetUserData(admin);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var admin = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (user == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
 
-            SetUserData(user);
+            SetUserData(admin);
 
             if (ModelState.IsValid)
             {

@@ -43,11 +43,6 @@ namespace Blog.Areas.Admin.Pages
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (admin == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
-
             SetUserData(admin);
 
             if (admin.Id == userId)

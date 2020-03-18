@@ -90,40 +90,35 @@ namespace Blog.Areas.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            if (user == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
+            var admin = await _userManager.GetUserAsync(HttpContext.User);
 
             if (!ModelState.IsValid)
             {
-                SetUserData(user);
+                SetUserData(admin);
 
                 return Page();
             }
 
             #region Input Validation
 
-            if (Input.NewName != user.Name)
+            if (Input.NewName != admin.Name)
             {
-                user.Name = Input.NewName;
+                admin.Name = Input.NewName;
             }
 
-            if (Input.NewSurname != user.Surname)
+            if (Input.NewSurname != admin.Surname)
             {
-                user.Surname = Input.NewSurname;
+                admin.Surname = Input.NewSurname;
             }
 
-            if (Input.NewBirthDate != user.BirthDate)
+            if (Input.NewBirthDate != admin.BirthDate)
             {
-                user.BirthDate = Input.NewBirthDate;
+                admin.BirthDate = Input.NewBirthDate;
             }
 
             #endregion
 
-            await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(admin);
 
             // Local redirect because, i want to reload data.
             return RedirectToPage("/Account", new { area = "Admin" });

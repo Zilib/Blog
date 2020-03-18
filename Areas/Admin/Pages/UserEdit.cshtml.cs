@@ -68,12 +68,7 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnGetAsync(string userId = null)
         {
-            BlogUser admin = await _userManager.GetUserAsync(HttpContext.User);
-
-            if (admin == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
+            var admin = await _userManager.GetUserAsync(HttpContext.User);
 
             if (string.IsNullOrEmpty(userId))
             {
@@ -89,7 +84,6 @@ namespace Blog.Areas.Admin.Pages
             }
             
             var editedUser = await _userManager.FindByIdAsync(userId);
-
 
             if (editedUser == null)
             {
@@ -111,13 +105,6 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
-
-            if (admin == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
-
             if (editedUserId == null)
             {
                 return RedirectToPage("/Users", new { area = "Admin" });

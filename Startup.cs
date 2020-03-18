@@ -29,6 +29,17 @@ namespace Blog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Database
+
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("ApplicationContextConnection")));
+
+            services.AddDefaultIdentity<BlogUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationContext>();
+
+            #endregion
+
             #region Cookies
 
             services.ConfigureApplicationCookie(options =>
@@ -44,21 +55,21 @@ namespace Blog
 
             #endregion
 
-            #region Database
-
-            services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("ApplicationContextConnection")));
-
-            services.AddDefaultIdentity<BlogUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationContext>();
-
-            #endregion
-
             #region Razor Configuration
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(options => {
+                    #region Authorization pages
+
+                    options.Conventions.AuthorizeAreaPage("Admin", "/Users");
+                    options.Conventions.AuthorizeAreaPage("Admin", "/CreateUser");
+                    options.Conventions.AuthorizeAreaPage("Admin", "/UserDelete");
+                    options.Conventions.AuthorizeAreaPage("Admin", "/UserEdit");
+                    options.Conventions.AuthorizeAreaPage("Admin", "/Account");
+                    options.Conventions.AuthorizeAreaPage("Admin", "/Logout");
+
+                    #endregion
+
                     options.RootDirectory = "/Content";
                     options.Conventions.AddAreaPageRoute("Blog", "/Index", "/");
                 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
