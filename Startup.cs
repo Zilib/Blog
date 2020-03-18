@@ -35,7 +35,12 @@ namespace Blog
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ApplicationContextConnection")));
 
+            #endregion
+
+            #region Identity
+
             services.AddDefaultIdentity<BlogUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             #endregion
@@ -80,7 +85,9 @@ namespace Blog
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -117,6 +124,24 @@ namespace Blog
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
             });
+
+            CreateRolesAsync(serviceProvider).Wait();
+        }
+
+        private async Task CreateRolesAsync(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Admin", "Moderator" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
         }
     }
 }

@@ -148,10 +148,11 @@ namespace Blog.Areas.Admin.Pages
 
                 // Register user
                 var result = await _userManager.CreateAsync(newUser, Input.Password);
-
+                 
                 // if everything is fine
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(newUser, "Moderator");
                     // Show information, user is added correctly
                     ModelState.AddModelError(string.Empty, "Prawid³owo dodano u¿ytkownika");
                     return Page();

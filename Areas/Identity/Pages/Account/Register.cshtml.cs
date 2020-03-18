@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Blog.Areas.Data;
 
+// TODO move it to admin folder, make user able to give here required fields
+// If user have not filled all fields, website doesn't work. MUST HAVE TO DO
 namespace Blog.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -66,14 +68,28 @@ namespace Blog.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            // Only first user can be registered by himself
+            var numberOfUsers = _userManager?.Users?.ToList();
+
+            if (numberOfUsers.Count() > 0)
+                return RedirectToPage("/Login", new { area = "Admin" });
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            // Only first user can be registered by himself
+            var numberOfUsers = _userManager.Users.ToList().Count();
+
+            if (numberOfUsers > 0)
+                return RedirectToPage("/Login", new { area = "Admin" });
+
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             
@@ -91,6 +107,8 @@ namespace Blog.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Admin");
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

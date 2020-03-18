@@ -69,20 +69,20 @@ namespace Blog.Areas.Admin
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var admin = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (user == null)
+            if (admin == null)
             {
                 return RedirectToPage("/Login", new { area = "Admin" });
             }
 
-            SetUserData(user);
+            SetUserData(admin);
 
             Input = new InputModel
             {
-                NewName = user.Name,
-                NewSurname = user.Surname,
-                NewBirthDate = user.BirthDate
+                NewName = admin.Name,
+                NewSurname = admin.Surname,
+                NewBirthDate = admin.BirthDate
             };
             
             return Page();
