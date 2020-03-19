@@ -152,7 +152,7 @@ namespace Blog.Areas.Admin.Pages
                 // if everything is fine
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(newUser, "Moderator");
+                    await _userManager.AddToRoleAsync(newUser, "U¿ytkownik");
                     // Show information, user is added correctly
                     ModelState.AddModelError(string.Empty, "Prawid³owo dodano u¿ytkownika");
                     return Page();

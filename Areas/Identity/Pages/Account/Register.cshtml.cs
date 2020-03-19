@@ -106,8 +106,8 @@ namespace Blog.Areas.Identity.Pages.Account
                 var user = new BlogUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "Admin");
+                {   
+                    await _userManager.AddToRolesAsync(user, new[] {"Założyciel" , "Administrator", "Moderator", "Użytkownik"});
 
                     _logger.LogInformation("User created a new account with password.");
 

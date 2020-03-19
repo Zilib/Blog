@@ -17,6 +17,7 @@ namespace Blog.Areas.Admin.Pages
 
         public List<BlogUser> Users { get; set; }
 
+        public Dictionary<string, IList<string>> UserRoles { get; set; }
         #region User informations
 
         public string UserName { get; set; }
@@ -37,6 +38,18 @@ namespace Blog.Areas.Admin.Pages
             _logger = logger;
         }
 
+        private async Task GetRoles()
+        {
+            UserRoles = new Dictionary<string, IList<string>>();
+
+            foreach(var User in Users)
+            {
+                var userRole = await _userManager.GetRolesAsync(User);
+
+                UserRoles.Add(User.Id,userRole);
+            }
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
@@ -44,6 +57,8 @@ namespace Blog.Areas.Admin.Pages
             SetUserData(admin);
 
             Users = _userManager.Users.ToList();
+
+            await GetRoles();
 
             return Page();
         }

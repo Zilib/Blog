@@ -131,7 +131,7 @@ namespace Blog
         private async Task CreateRolesAsync(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Admin", "Moderator" };
+            string[] roleNames = { "Za³o¿yciel", "Administrator", "Moderator", "U¿ytkownik" };
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
