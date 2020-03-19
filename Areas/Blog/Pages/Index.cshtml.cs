@@ -17,6 +17,9 @@ namespace Blog.Areas.Blog
         private readonly ApplicationContext _applicationContext;
         public List<Post> Posts { get; set; }
 
+        // if posts are empty show information "No posts to show"
+        public bool showPosts() => Posts.Count() > 0;
+
         public IndexModel(UserManager<BlogUser> userManager, ApplicationContext applicationContext)
         {
             _userManager = userManager;

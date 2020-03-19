@@ -11,3 +11,6 @@
 * Education destination,
 * **Entity Framework!**,
 * Blog is about poems, i will put there some my own poems :)
+
+# Application informations
+Application provides register only for first user in database, first registered user will be a administrator.
