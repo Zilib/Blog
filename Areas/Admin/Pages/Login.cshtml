@@ -4,27 +4,28 @@
 @{
     ViewData["Title"] = "Zaloguj się";
 }
-<div class="Login">
+<div class="Login container">
     <div class="Login-Form">
-    <h1>@ViewData["Title"]</h1>
+    <h1 class="display-1">@ViewData["Title"]</h1>
         <section>
-            <form id="account" method="post">
-                <h4>Użyj lokalnego konta aby się zalogować.</h4>
-                <hr />
+            <h4 class="font-weight-light">Użyj lokalnego konta aby się zalogować.</h4>
+            <hr />
+            <form id="account" method="post" class="w-50 ml-auto mr-auto">
                 <div asp-validation-summary="All" class="Danger"></div> <!--TODO-->
                 <div class="form-group">
                     <label asp-for="Input.UserName"></label>
-                    <input asp-for="Input.UserName" />
-                    <br />
+                    <input class="form-control"
+                           asp-for="Input.UserName" />
                     <span asp-validation-for="Input.UserName" class="Danger"></span> <!--TODO-->
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" />
+                    <input class="form-control"
+                           asp-for="Input.Password" />
                     <span asp-validation-for="Input.Password" class="Danger"></span> <!--TODO-->
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-primary btn-lg d-block ml-auto mr-auto">Zaloguj!</button>
                 </div>
             </form>
         </section>

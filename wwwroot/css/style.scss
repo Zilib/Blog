@@ -1,33 +1,27 @@
 ﻿$articleAnimationTime: 2s;
 
-html,body {
-    margin:0;
-    padding:0;
-}
-body {
-    max-width:100vw;
-    overflow-x:hidden;
-}
-h1,h2,h3,h4,h5,h6 {
-    margin:0;
-    padding:0;
-}
 html {
-    font-size:62.5%;
+    //font-size:62.5%;
     font-family: 'Lato', sans-serif;
+}
+/*
+    h1,h2,h3,h4,h5,h6 {
+    margin:0;
+    padding:0;
 }
 .container {
     width:80%;
     margin-left:10%;
     margin-right:10%;
-}
-
+}*/
+// Nabar arrows
 .nav-expand {
     position: absolute;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:2rem;
+    font-size:1.4rem;
+    padding-bottom:4.5px;
     top: 50px;
     color: #FFF;
     left: 250px;
@@ -206,6 +200,7 @@ html {
 }
 
 //* Identity *//
+/*
 .Login {
     width: 80%;
     height:100vh;
@@ -249,8 +244,8 @@ html {
         }
     }
 }
-
-//* Account *//
+    */
+/* Account 
 .Account {
 
     h1 {
@@ -278,8 +273,8 @@ html {
         }
     }
 }
-
-//* CreateUser *//
+*/
+/* CreateUser 
 .CreateUser {
     main {
         width:80%;
@@ -298,8 +293,8 @@ html {
         }
     }
 }
-
-//* Users *//
+*/
+/* Users 
 
 .Users {
     main {
@@ -308,7 +303,7 @@ html {
         justify-content:center;
     }
 }
-
+*/
 //* Global css *//
 footer {
     text-align:center;
@@ -320,6 +315,7 @@ footer {
     bottom:0;
 }
 
+/*
 .text-thick {
     font-weight:300;
 }
@@ -378,7 +374,16 @@ footer {
 
 }
 
+select {
+    font-size:1.6rem;
+    padding:5px;
+    width:100%;
+}
+*/
+
 #sidebar {
+    position:relative;
+    z-index:100;
     height: 100vh;
     width: 250px;
     background: #333;
@@ -388,6 +393,7 @@ footer {
     box-shadow: 4px 0 7px rgba(0,0,0,.5);
     transform: translateX(-100%);
     transition: 500ms;
+    font-size:62.5%;
 
     .Avatar {
         margin: 30px 0 30px 0;
@@ -424,7 +430,7 @@ footer {
     .Information {
         color: #FFF;
         text-align: center;
-        font-size: 3rem;
+        font-size: 2rem;
         font-weight: 300;
         margin-bottom: 40px;
     }
@@ -439,7 +445,7 @@ footer {
                 display: block;
                 width: 100%;
                 list-style: none;
-                font-size: 2rem;
+                font-size: 1.3rem;
                 text-align: center;
                 padding: 10px 0;
                 border-bottom: solid 1px rgba(255,255,255,.3);
@@ -464,7 +470,7 @@ footer {
                 background: transparent;
                 border: none;
                 color: #FFF;
-                font-size: 2rem;
+                font-size: 1.3rem;
 
                 &:hover {
                     cursor: pointer;
@@ -482,6 +488,7 @@ footer {
     }
 }
 
+/*
 .btn {
     display:block;
     padding: 10px;
@@ -517,9 +524,15 @@ footer {
 }
 // Set every item in center of height and width
 .flex-center {
-    display: flex;
-    align-items: center;
     justify-content: center;
+}
+
+.d-flex {
+    display:flex;
+}
+
+.justify-contet-bottom {
+    display:flex;
 }
 
 .List {
@@ -554,3 +567,4 @@ footer {
         }
     }
 }
+    */

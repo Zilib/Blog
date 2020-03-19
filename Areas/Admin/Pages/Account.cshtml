@@ -3,29 +3,40 @@
 @{
     ViewData["Title"] = "Konto";
 }
-<div class="Account">
+<div class="Account container">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <main>
-        <h1>Witaj @Model.UserName</h1>
+        <h1 class="display-1">Witaj @Model.UserName</h1>
         <hr />
-        <h2>Edytuj swoje dane</h2>
-        <form method="post">
-            <div asp-validation-summary="All" class="Danger"></div>
+        <div class="UserData ml-3 w-50 ml-auto mr-auto">
+            <h2 class="display-4 text-center mb-5 text-muted">Edytuj swoje dane</h2>
+            <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.NewName"></label> 
-                <input asp-for="Input.NewName" />
+                <input class="form-control"
+                       asp-for="Input.NewName" />
+                <span asp-validation-for="Input.NewName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.NewSurname"></label> 
-                <input asp-for="Input.NewSurname" />
+                <input class="form-control"
+                       asp-for="Input.NewSurname" />
+                <span asp-validation-for="Input.NewSurname" />
             </div>
             <div class="form-group">
                 <label asp-for="Input.NewBirthDate"></label>
-                <input asp-for="Input.NewBirthDate" />
+                <input class="form-control"
+                       asp-for="Input.NewBirthDate" />
+                <span asp-validation-for="Input.NewBirthDate"></span>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Aktualizuj!</button>
+                <button type="submit" class="btn btn-primary d-block btn-lg ml-auto mr-auto">Aktualizuj!</button>
             </div>
         </form>
+        </div>
+        <div class="UserRoles">
+
+        </div>
     </main>
 </div>
