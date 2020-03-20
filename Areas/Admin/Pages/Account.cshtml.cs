@@ -35,16 +35,26 @@ namespace Blog.Areas.Admin
         public string UserName { get; set; }
         public string UserSurname { get; set; }
         public DateTime UserBirthDate { get; set; }
-        private void SetUserData(BlogUser user)
+        public IList<string> UserRoles { get; set; }
+
+        private async Task SetUserData(BlogUser user)
         {
             UserName = user.Name;
             UserSurname = user.Surname;
             UserBirthDate = user.BirthDate;
+            UserId = user.Id;
+
+            UserRoles = await _userManager.GetRolesAsync(user);
         }
 
         #endregion
 
         #region Input Data Model
+
+        [BindProperty]
+        [HiddenInput]
+        [Display(Name = "UserId")]
+        public string UserId { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -63,6 +73,7 @@ namespace Blog.Areas.Admin
             [Display(Name = "Data Urodzenia")]
             [DataType(DataType.Date)]
             public DateTime NewBirthDate { get; set; }
+
         }
 
         #endregion
@@ -71,12 +82,7 @@ namespace Blog.Areas.Admin
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (admin == null)
-            {
-                return RedirectToPage("/Login", new { area = "Admin" });
-            }
-
-            SetUserData(admin);
+            await SetUserData(admin);
 
             Input = new InputModel
             {
@@ -94,7 +100,7 @@ namespace Blog.Areas.Admin
 
             if (!ModelState.IsValid)
             {
-                SetUserData(admin);
+                await SetUserData(admin);
 
                 return Page();
             }
@@ -120,7 +126,7 @@ namespace Blog.Areas.Admin
 
             await _userManager.UpdateAsync(admin);
 
-            // Local redirect because, i want to reload data.
+            // Local redirect because, i want to reload data. And go to the get method
             return RedirectToPage("/Account", new { area = "Admin" });
         }
     }

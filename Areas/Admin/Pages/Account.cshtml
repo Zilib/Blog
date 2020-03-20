@@ -11,32 +11,56 @@
         <div class="UserData ml-3 w-50 ml-auto mr-auto">
             <h2 class="display-4 text-center mb-5 text-muted">Edytuj swoje dane</h2>
             <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.NewName"></label> 
-                <input class="form-control"
-                       asp-for="Input.NewName" />
-                <span asp-validation-for="Input.NewName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.NewSurname"></label> 
-                <input class="form-control"
-                       asp-for="Input.NewSurname" />
-                <span asp-validation-for="Input.NewSurname" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.NewBirthDate"></label>
-                <input class="form-control"
-                       asp-for="Input.NewBirthDate" />
-                <span asp-validation-for="Input.NewBirthDate"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary d-block btn-lg ml-auto mr-auto">Aktualizuj!</button>
-            </div>
-        </form>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.NewName"></label>
+                    <input class="form-control"
+                           asp-for="Input.NewName" />
+                    <span asp-validation-for="Input.NewName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.NewSurname"></label>
+                    <input class="form-control"
+                           asp-for="Input.NewSurname" />
+                    <span asp-validation-for="Input.NewSurname" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.NewBirthDate"></label>
+                    <input class="form-control"
+                           asp-for="Input.NewBirthDate" />
+                    <span asp-validation-for="Input.NewBirthDate"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary d-block btn-lg ml-auto mr-auto">Aktualizuj!</button>
+                </div>
+            </form>
         </div>
+        <hr />
         <div class="UserRoles">
-
+            <h2 class="display-4 text-muted text-center">Role</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm text-muted">
+                        Nazwa roli
+                    </div>
+                </div>
+                <form method="post" asp-area="Admin" asp-page="UserRemoveRole">
+                    <div class="row">
+                        <div class="col-sm">
+                            <select class="custom-select" id="UserRole" name="UserRole">
+                                @foreach (var role in Model.UserRoles)
+                                {
+                                    <option value="@role">@role</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-danger">Usuń rolę</button>
+                        </div>
+                    </div>
+                    <input asp-for="@Model.UserId" />
+                </form>
+            </div>
         </div>
     </main>
 </div>

@@ -72,6 +72,7 @@ namespace Blog
                     options.Conventions.AuthorizeAreaPage("Admin", "/UserEdit");
                     options.Conventions.AuthorizeAreaPage("Admin", "/Account");
                     options.Conventions.AuthorizeAreaPage("Admin", "/Logout");
+                    options.Conventions.AuthorizeAreaPage("Admin", "/UserRemoveRole");
 
                     #endregion
 
