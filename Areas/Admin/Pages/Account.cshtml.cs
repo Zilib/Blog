@@ -17,15 +17,19 @@ namespace Blog.Areas.Admin
 
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         #endregion
 
         #region Construct
 
-        public AccountModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
+        public AccountModel(UserManager<BlogUser> userManager,
+            ILogger<LoginModel> logger,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         #endregion
@@ -44,6 +48,7 @@ namespace Blog.Areas.Admin
             UserBirthDate = user.BirthDate;
             UserId = user.Id;
 
+            AbleToModifyRoles = await _userManager.IsInRoleAsync(user, "Administrator");
             UserRoles = await _userManager.GetRolesAsync(user);
         }
 
@@ -78,6 +83,10 @@ namespace Blog.Areas.Admin
 
         #endregion
 
+        public List<IdentityRole> AllRoles { get; set; }   
+        // List of roles where user is not assigned
+        public List<string> NoUserRoles { get; set; }
+        public bool AbleToModifyRoles { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
@@ -90,7 +99,22 @@ namespace Blog.Areas.Admin
                 NewSurname = admin.Surname,
                 NewBirthDate = admin.BirthDate
             };
-            
+
+            AllRoles = _roleManager.Roles.ToList();
+
+            // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
+            if (UserRoles.Contains("Administrator"))
+                UserRoles.Remove("Administrator");
+
+            // Fill the array, of the values which are not assigned to the user
+            NoUserRoles = new List<string>();
+            foreach (var role in AllRoles)
+            {
+                if (role.ToString() != "Administrator" 
+                    && !UserRoles.Contains(role.ToString()))
+                    NoUserRoles.Add(role.ToString());
+            }
+
             return Page();
         }
 

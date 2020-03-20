@@ -28,6 +28,15 @@ namespace Blog.Areas.Admin.Pages
         }
         public async  Task<IActionResult> OnPost()
         {
+            // Is validated in the startup.cs
+            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            if(!await _userManager.IsInRoleAsync(admin, "Administrator"))
+            {
+                _logger.LogInformation("You are not able to remove role!");
+                return RedirectToPage("/Account", new { area = "Admin" });
+            }
+           
+
             var roleToRemove = Request.Form["UserRole"].ToString();
             var userId = Request.Form["UserId"].ToString();
 

@@ -43,23 +43,51 @@
                     <div class="col-sm text-muted">
                         Nazwa roli
                     </div>
-                </div>
-                <form method="post" asp-area="Admin" asp-page="UserRemoveRole">
-                    <div class="row">
-                        <div class="col-sm">
-                            <select class="custom-select" id="UserRole" name="UserRole">
-                                @foreach (var role in Model.UserRoles)
-                                {
-                                    <option value="@role">@role</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col-sm">
-                            <button type="submit" class="btn btn-danger">Usuń rolę</button>
-                        </div>
+                    <div class="col-sm text-muted pl-4 pb-2">
+                        Akcja
                     </div>
-                    <input asp-for="@Model.UserId" />
-                </form>
+                </div>
+                @if (@Model.UserRoles.Count > 0)
+                {
+                    <form method="post" asp-area="Admin"
+                          asp-page="RoleManager/UserRemoveRole">
+                        <input asp-for="@Model.UserId" />
+                        <div class="row">
+                            <div class="col-sm">
+                                <select class="custom-select" name="UserRole">
+                                    @foreach (var role in Model.UserRoles)
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-danger">Usuń rolę</button>
+                            </div>
+                        </div>
+                    </form>
+                }
+                @if (@Model.NoUserRoles.Count > 0)
+                {
+                    <form method="post"
+                          asp-area="Admin"
+                          asp-page="RoleManager/UserAddRole">
+                        <input asp-for="@Model.UserId" />
+                        <div class="row mt-2">
+                            <div class="col-sm">
+                                <select class="custom-select" name="RoleToAssign">
+                                    @foreach (var role in @Model.NoUserRoles)
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-primary">Dodaj rolę</button>
+                            </div>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
     </main>
