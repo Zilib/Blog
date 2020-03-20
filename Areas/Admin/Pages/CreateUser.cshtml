@@ -5,52 +5,58 @@
 }
 <div class="CreateUser">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
-    <main>
-        <h1>Stwórz nowego użytkownika</h1>
-        <form method="post">
-            <div asp-validation-summary="All" class="Danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+    <main class="container">
+        <h3 class="display-3 text-center pb-2">Stwórz nowego użytkownika!</h3>
+        <hr />
+        <form method="post" class="mt-3">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.Name" class="text-muted"></label>
+                    <input asp-for="Input.Name" class="form-control" />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.Surname" class="text-muted"></label>
+                    <input asp-for="Input.Surname" class="form-control" />
+                    <span asp-validation-for="Input.Surname" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Input.UserName"></label>
-                <input asp-for="Input.UserName" />
+                <label asp-for="Input.UserName" class="text-muted"></label>
+                <input asp-for="Input.UserName" class="form-control" />
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.Email" class="text-muted"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.Password" class="text-muted"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.MobilePhone" class="text-muted"></label>
+                    <input asp-for="Input.MobilePhone" class="form-control" />
+                    <span asp-validation-for="Input.MobilePhone" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.ConfirmPassword" class="text-muted"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" />
-                <span asp-validation-for="Input.ConfirmPassword"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Name"></label>
-                <input asp-for="Input.Name" />
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Surname"></label>
-                <input asp-for="Input.Surname" />
-                <span asp-validation-for="Input.Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.BirthDate"></label>
-                <input asp-for="Input.BirthDate" />
+                <label asp-for="Input.BirthDate" class="text-muted"></label>
+                <input asp-for="Input.BirthDate" class="form-control" />
                 <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.MobilePhone"></label>
-                <input asp-for="Input.MobilePhone" />
-                <span asp-validation-for="Input.MobilePhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Stwórz użytkownika</button>
+                <button type="submit" class="btn btn-primary d-block ml-auto mr-auto">Stwórz użytkownika!</button>
             </div>
         </form>
     </main>

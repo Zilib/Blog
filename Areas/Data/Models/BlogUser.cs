@@ -18,9 +18,10 @@ namespace Blog.Areas.Data
         [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
 
+        [Required]
         [Display(Name = "Data Urodzenia")]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         
 
         public ICollection<Post> Posts { get; set; }

@@ -24,7 +24,7 @@ namespace Blog.Areas.Admin.Pages
 
         public string UserName { get; set; }
         public string UserSurname { get; set; }
-        public DateTime UserBirthDate { get; set; }
+        public DateTime? UserBirthDate { get; set; }
         private void SetUserData(BlogUser user)
         {
             UserName = user.Name;

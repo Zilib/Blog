@@ -19,7 +19,7 @@ namespace Blog.Areas.Admin.Pages
 
         public string UserName { get; set; }
         public string UserSurname { get; set; }
-        public DateTime UserBirthDate { get; set; }
+        public DateTime? UserBirthDate { get; set; }
 
         /// <summary>
         /// Load data for sidebar

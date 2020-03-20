@@ -20,7 +20,7 @@ namespace Blog.Areas.Admin.Pages
 
         public string UserName { get; set; }
         public string UserSurname { get; set; }
-        public DateTime UserBirthDate { get; set; }
+        public DateTime? UserBirthDate { get; set; }
         private void SetUserData(BlogUser user)
         {
             UserName = user.Name;
@@ -45,7 +45,7 @@ namespace Blog.Areas.Admin.Pages
             [Required]
             [Display(Name = "Data urodzenia")]
             [DataType(DataType.Date)]
-            public DateTime NewBirthDate { get; set; }
+            public DateTime? NewBirthDate { get; set; }
         }
 
         #endregion

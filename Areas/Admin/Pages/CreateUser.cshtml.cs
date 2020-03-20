@@ -47,7 +47,7 @@ namespace Blog.Areas.Admin.Pages
 
         public string UserName { get; set; }
         public string UserSurname { get; set; }
-        public DateTime UserBirthDate { get; set; }
+        public DateTime? UserBirthDate { get; set; }
 
         /// <summary>
         /// Load data for sidebar
@@ -66,38 +66,38 @@ namespace Blog.Areas.Admin.Pages
         {
             #region Required
             
-            [Required]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Nazwa u¿ytkownika")]
             public string UserName { get; set; }
 
-            [Required(ErrorMessage = "Pole '{0}' jest wymagane!")]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Pole '{0}' jest wymagane!")]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [DataType(DataType.Password)]
             [Display(Name = "Has³o")]
             public string Password { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "PotwierdŸ has³o")]
             [DataType(DataType.Password)]
             [Compare("Password", ErrorMessage = "Has³a do siebie nie pasuj¹")]
             public string ConfirmPassword { get; set; }
 
-            [Required(ErrorMessage = "Pole '{0}' jest wymagane!")]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Imiê")]
             public string Name { get; set; }
 
-            [Required(ErrorMessage = "Pole '{0}' jest wymagane!")]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Nazwisko")]
             public string Surname { get; set; }
 
-            [Required(ErrorMessage = "Pole '{0}' jest wymagane!")]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Data urodzenia")]
             [DataType(DataType.Date, ErrorMessage = "Wartoœæ jest nieprawid³owa")]
-            public DateTime BirthDate { get; set; }
+            public DateTime? BirthDate { get; set; }
 
             #endregion
 

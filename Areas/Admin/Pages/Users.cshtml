@@ -4,84 +4,52 @@
 
 }
 
-<div class="Users">
+<div class="Users container pt-2">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <main>
-        <!--<table class="UsersList">
-            <tr>
-                <td>Nazwa użytkownika</td>
-                <td>Email</td>
-                <td>Edytuj</td>
-                <td>Usuń</td>
-            </tr>
-            @foreach (var User in Model.Users)
-            {
-                <tr>
-                    <td>@User.UserName</td>
-                    <td>@User.Email</td>
-                    <td>
-                        <form method="post"
-                              asp-page="UserEdit"
-                              asp-area="Admin">
-                            <input type="hidden" name="UserId" value="@User.Id" />
-                            <button type="submit">Edytuj</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post"
-                              asp-area="Admin"
-                              asp-page="UserDelete">
-                            <input type="hidden" name="UserId" value="@User.Id" />
-                            <button type="submit" class="confirm">Usuń</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </table>-->
-        <div class="List">
-            <div class="header row">
-                <div class="Column-4 flex-center text-center">Nazwa użytkownika</div>
-                <div class="Column-4 flex-center text-center">Email</div>
-                <div class="Column-4 flex-center text-center">Role</div>
-                <div class="Column-4 flex-center text-center">Edytuj</div>
-                <div class="Column-4 flex-center text-center">Usuń</div>
-            </div>
-            @foreach (var item in @Model.Users)
-            {
-                <div class="row">
-                    <div class="Column-4 flex-center">@item.Name</div>
-                    <div class="Column-4 flex-center">@item.Email</div>
-                    <div class="Column-4 flex-center">
-                        <select>
-                        @foreach (var Role in @Model.UserRoles[item.Id])
-                        {
-                            <option>@Role</option>
-                        }
-                        </select>
-                    </div>
-                    <div class="Column-4 flex-center">
-                        <form method="get" class="w-100">
-                            <button type="submit"
-                                asp-area="Admin"
-                                asp-page="UserEdit"
-                                value="@item.Id"
-                                name="UserId"
-                                class="btn btn-primary">Edytuj</button>
-                        </form>
-                    </div>
-                    <div class="Column-4 flex-center ConfirmForm">
-                        <form method="post" class="w-100 ConfirmForm">
-                            <button type="submit"
-                                asp-area="Admin"
-                                asp-page="UserDelete"
-                                name="UserId"
-                                value="@item.Id"
-                                class="btn btn-primary ConfirmButton">Usuń</button>
-                        </form>
-                    </div>
+       <div class="container">
+           <div class="row mb-2 border-bottom">
+               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Użytkownik</h4></div>
+               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Email</h4></div>
+               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Role</h4></div>
+               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Edytuj</h4></div>
+               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Usuń</h4></div>
+           </div>
+           @foreach (var User in Model.Users)
+           {
+               <div class="row">
+                   <div class="col-sm text-center">@User.UserName</div>
+                   <div class="col-sm text-center">@User.Email</div>
+                   <div class="col-sm">
+                       <select class="custom-select">
+                           @foreach (var role in @Model.UserRoles[User.Id])
+                           {
+                               <option>@role</option>
+                           }
+                       </select>
+                   </div>
+                   <div class="col-sm">
+                       <form method="post"
+                             asp-area="Admin"
+                             asp-page="UserEdit">
+                           <input type="hidden" value="@User.Id" name="UserId"/>
+                           <button type="submit" class="btn btn-primary btn-block d-block ml-auto mr-auto">Edytuj</button>
+                       </form>
+                   </div>
+                   <div class="col-sm">
+                       <form method="post"
+                             asp-area="Admin"
+                             asp-page="UserDelete">
+                           <input type="hidden" name="UserId" value="@User.Id" />
+                           <button type="submit" class="btn btn-danger btn-block d-block ml-auto mr-auto">Usuń</button>
+                       </form>
+                   </div>
+               </div>
+           }
+       </div>
 
-                </div>
-            }
-        </div>
+        <a asp-area="Admin"
+           asp-page="CreateUser"
+           class="btn btn-success mt-3 mr-auto ml-auto d-block">Dodaj użytkownika</a>
     </main>
 </div>

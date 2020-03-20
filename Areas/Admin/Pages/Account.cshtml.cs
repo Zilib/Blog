@@ -38,7 +38,7 @@ namespace Blog.Areas.Admin
 
         public string UserName { get; set; }
         public string UserSurname { get; set; }
-        public DateTime UserBirthDate { get; set; }
+        public DateTime? UserBirthDate { get; set; }
         public IList<string> UserRoles { get; set; }
 
         private async Task SetUserData(BlogUser user)
@@ -77,7 +77,7 @@ namespace Blog.Areas.Admin
             [Required]
             [Display(Name = "Data Urodzenia")]
             [DataType(DataType.Date)]
-            public DateTime NewBirthDate { get; set; }
+            public DateTime? NewBirthDate { get; set; }
 
         }
 
