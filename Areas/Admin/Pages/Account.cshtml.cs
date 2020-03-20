@@ -82,6 +82,7 @@ namespace Blog.Areas.Admin
             isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
 
             LoggedUser = user;
+            UserId = LoggedUser.Id;
 
             Input = new InputModel
             {

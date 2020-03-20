@@ -13,27 +13,85 @@ namespace Blog.Areas.Admin.Pages
 {
     public class UserEditModel : PageModel
     {
-        private readonly UserManager<BlogUser> _userManager;
-        private readonly ILogger<LoginModel> _logger;
-        [BindProperty]
-        public string EditedUserId { get; set; }
-
-        public BlogUser LoggedUser { get; set; }
-        [BindProperty]
-        public BlogUser EditedUser { get; set; }
-        public bool isAdministrator { get; set; }
-
-
         #region Construct
 
-        public UserEditModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
+        public UserEditModel(UserManager<BlogUser> userManager,
+            ILogger<LoginModel> logger,
+            RoleManager<IdentityRole> roleManager)
         {
+            #region Identity inject
+
             _userManager = userManager;
             _logger = logger;
+            _roleManager = roleManager;
+
+            #endregion
+
+            #region This class variables
+
             isAdministrator = false;
+
+            #endregion
+
+            #region This class's collections and objects
+
             LoggedUser = new BlogUser();
             EditedUser = new BlogUser();
+            EditedUserRoles = new List<string>();
+            NoEditedUserRoles = new List<string>();
+
+            #endregion
         }
+
+        #endregion
+
+        #region Private variables
+
+        private readonly UserManager<BlogUser> _userManager;
+        private readonly ILogger<LoginModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        #endregion
+
+        #region Public variables
+
+        // In assumptions it is administrator
+        public BlogUser LoggedUser { get; set; }
+        public bool isAdministrator { get; set; }
+        // Roles which are assigned to edited user
+        public IList<string> EditedUserRoles { get; set; }
+        // Roles which are not assigned to edited user user
+        public List<string> NoEditedUserRoles { get; set; }
+
+        #endregion
+
+        #region Getters
+
+        /// <summary>
+        /// Receive number of edited user roles
+        /// </summary>
+        /// <returns></returns>
+        public int NumberOfRoles() => EditedUserRoles.Count();
+
+        /// <summary>
+        /// Receive number of roles which are not assigned to the user!
+        /// </summary>
+        public int NumberOfNoRoles() => NoEditedUserRoles.Count();
+        #endregion
+
+        #region Binds
+
+        [BindProperty]
+        [HiddenInput]
+        public string EditedUserId { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+        /// <summary>
+        /// Model of user who actually is modyfing
+        /// </summary>
+        [BindProperty]
+        public BlogUser EditedUser { get; set; }
 
         #endregion
 
@@ -57,26 +115,21 @@ namespace Blog.Areas.Admin.Pages
 
         #endregion
 
-        #region Edited user infomations
-
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        [BindProperty]
-        public string editedUserId { get; set; }
-
-        #endregion
-
+        #region OnGet
 
         public async Task<IActionResult> OnGetAsync(string userId = null)
         {
+            #region Validate user, and assign him
+
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (!await _userManager.IsInRoleAsync(user, "Administrator"))
                 return RedirectToPage("/Account", new { area = "Admin" });
 
-            isAdministrator = true;
-            LoggedUser = user;
+            isAdministrator = true; // if user is admin, tell it to the app
+            LoggedUser = user; // It is administrator
+
+            #endregion
 
             if (string.IsNullOrEmpty(userId))
             {
@@ -90,9 +143,12 @@ namespace Blog.Areas.Admin.Pages
                 _logger.LogInformation("Admin is trying to edit his own acc");
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
-            
+
+            #region Set variables value
+
             EditedUser = await _userManager.FindByIdAsync(userId);
 
+            // User not found
             if (EditedUser == null)
             {
                 _logger.LogInformation("User not found");
@@ -105,11 +161,32 @@ namespace Blog.Areas.Admin.Pages
             Input.NewSurname = EditedUser.Surname;
             Input.NewBirthDate = EditedUser.BirthDate;
 
-            // Can be modified
+            // Set it for form
             EditedUserId = userId;
+
+            #endregion
+
+            #region Roles
+
+            EditedUserRoles = await _userManager.GetRolesAsync(EditedUser);
+            var AllAvailableRoles = _roleManager.Roles.ToList();
+
+            // Find roles which are not assigned to edited user
+            foreach (var role in AllAvailableRoles.ToList())
+            {
+                if (!EditedUserRoles.Contains(role.ToString()))
+                    NoEditedUserRoles.Add(role.ToString());
+            }
+            _logger.LogInformation(EditedUserRoles.Count().ToString());
+
+            #endregion
 
             return Page();
         }
+
+        #endregion
+
+        #region OnPost
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -145,5 +222,7 @@ namespace Blog.Areas.Admin.Pages
 
             return RedirectToPage("/Users", new { area = "Admin" });
         }
+
+        #endregion
     }
 }

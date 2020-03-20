@@ -23,7 +23,6 @@ namespace Blog.Areas.Data
         [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
         
-
         public ICollection<Post> Posts { get; set; }
     }
 }

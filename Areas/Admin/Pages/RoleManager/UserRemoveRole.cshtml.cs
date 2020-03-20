@@ -28,31 +28,44 @@ namespace Blog.Areas.Admin.Pages
         }
         public async  Task<IActionResult> OnPost()
         {
-            // Is validated in the startup.cs
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
-            if(!await _userManager.IsInRoleAsync(admin, "Administrator"))
+            #region Logged user assign to variables
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if(!await _userManager.IsInRoleAsync(user, "Administrator"))
             {
                 _logger.LogInformation("You are not able to remove role!");
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
-           
+
+            #endregion
+
+            #region Form validation
 
             var roleToRemove = Request.Form["UserRole"].ToString();
             var userId = Request.Form["UserId"].ToString();
 
             if (string.IsNullOrEmpty(roleToRemove) || string.IsNullOrEmpty(userId))
             {
+                _logger.LogInformation("Something is wrong");
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
+            #endregion
+
+            #region Remove role
+            
+            // Find user who will lost his privilages
+            var UserToRemoveRole = await _userManager.FindByIdAsync(userId);
+            if (UserToRemoveRole == null)
             {
                 _logger.LogInformation("No user id");
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
 
-            await _userManager.RemoveFromRoleAsync(user, roleToRemove);
+            await _userManager.RemoveFromRoleAsync(UserToRemoveRole, roleToRemove);
+
+            #endregion
 
             return RedirectToPage("/Account", new { area = "Admin" });
         }
