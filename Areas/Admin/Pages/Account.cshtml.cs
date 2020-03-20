@@ -21,6 +21,8 @@ namespace Blog.Areas.Admin
 
         #endregion
 
+        public bool isAdministrator { get; set; }
+
         #region Construct
 
         public AccountModel(UserManager<BlogUser> userManager,
@@ -30,6 +32,7 @@ namespace Blog.Areas.Admin
             _userManager = userManager;
             _logger = logger;
             _roleManager = roleManager;
+            isAdministrator = false;
         }
 
         #endregion
@@ -91,6 +94,9 @@ namespace Blog.Areas.Admin
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
 
+            if (await _userManager.IsInRoleAsync(admin, "Administrator"))
+                isAdministrator = true;
+
             await SetUserData(admin);
 
             Input = new InputModel
@@ -121,6 +127,9 @@ namespace Blog.Areas.Admin
         public async Task<IActionResult> OnPostAsync()
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (await _userManager.IsInRoleAsync(admin, "Administrator"))
+                isAdministrator = true;
 
             if (!ModelState.IsValid)
             {

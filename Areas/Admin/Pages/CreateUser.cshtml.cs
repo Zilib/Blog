@@ -39,9 +39,12 @@ namespace Blog.Areas.Admin.Pages
             _userManager = userManager;
             _logger = logger;
             _signInManager = signInManager;
+            isAdministrator = false;
         }
 
         #endregion
+
+        public bool isAdministrator { get; set; }
 
         #region User informations
 
@@ -111,6 +114,13 @@ namespace Blog.Areas.Admin.Pages
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
 
+            // Only administrator has access to this page
+            if (!await _userManager.IsInRoleAsync(admin,"Administrator"))
+            {
+                return RedirectToPage("/Account", new { area = "Admin" });
+            }
+
+            isAdministrator = true;
             SetUserData(admin);
 
             return Page();
@@ -120,7 +130,12 @@ namespace Blog.Areas.Admin.Pages
         {
             var admin = await _userManager.GetUserAsync(HttpContext.User);
 
-
+            // Only administrator has access to this page
+            if (!await _userManager.IsInRoleAsync(admin, "Administrator"))
+            {
+                return RedirectToPage("/Account", new { area = "Admin" });
+            }
+            isAdministrator = true;
             SetUserData(admin);
 
             if (ModelState.IsValid)

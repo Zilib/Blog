@@ -11,8 +11,11 @@
                 <a asp-area="Admin"
                    asp-page="Account">Konto</a>
             </li>
+            @if (@Model.isAdministrator)
+            {
             <li><a asp-area="Admin"
                    asp-page="CreateUser">Dodaj użytkownika</a></li>
+            }
             <li><a asp-area="Admin"
                    asp-page="Users">Zarządzaj użytkownikami</a></li>
             <li><a href="#">Zarządzaj blogiem</a></li>
