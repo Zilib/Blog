@@ -25,21 +25,7 @@ namespace Blog.Areas.Admin.Pages
         public Dictionary<string, IList<string>> UserRoles { get; set; }
         public List<BlogUser> Users { get; set; }
         public bool isAdministrator { get; set; }
-
-        #endregion
-
-        #region User informations
-
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public DateTime? UserBirthDate { get; set; }
-        private void SetUserData(BlogUser user)
-        {
-            UserName = user.Name;
-            UserSurname = user.Surname;
-            UserBirthDate = user.BirthDate;
-        }
-
+        public BlogUser LoggedUser { get; set; }
         #endregion
 
         public UsersModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
@@ -47,6 +33,7 @@ namespace Blog.Areas.Admin.Pages
             _userManager = userManager;
             _logger = logger;
             isAdministrator = false;
+            LoggedUser = new BlogUser();
         }
 
         private async Task GetRoles()
@@ -63,12 +50,11 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (await _userManager.IsInRoleAsync(admin, "Administrator"))
-                isAdministrator = true;
+            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
 
-            SetUserData(admin);
+            LoggedUser = user;
 
             Users = _userManager.Users.ToList();
 

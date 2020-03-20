@@ -15,17 +15,24 @@ namespace Blog.Areas.Admin.Pages
     {
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        [BindProperty]
+        public string EditedUserId { get; set; }
 
-        #region Logged user informations
+        public BlogUser LoggedUser { get; set; }
+        [BindProperty]
+        public BlogUser EditedUser { get; set; }
+        public bool isAdministrator { get; set; }
 
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public DateTime? UserBirthDate { get; set; }
-        private void SetUserData(BlogUser user)
+
+        #region Construct
+
+        public UserEditModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
         {
-            UserName = user.Name;
-            UserSurname = user.Surname;
-            UserBirthDate = user.BirthDate;
+            _userManager = userManager;
+            _logger = logger;
+            isAdministrator = false;
+            LoggedUser = new BlogUser();
+            EditedUser = new BlogUser();
         }
 
         #endregion
@@ -60,32 +67,33 @@ namespace Blog.Areas.Admin.Pages
 
         #endregion
 
-        public UserEditModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
-        {
-            _userManager = userManager;
-            _logger = logger;
-        }
 
         public async Task<IActionResult> OnGetAsync(string userId = null)
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
+                return RedirectToPage("/Account", new { area = "Admin" });
+
+            isAdministrator = true;
+            LoggedUser = user;
 
             if (string.IsNullOrEmpty(userId))
             {
                 _logger.LogInformation("Id is not passed");
-                return RedirectToPage("/Login", new { area = "Admin" });
+                return RedirectToPage("/Account", new { area = "Admin" });
             }
 
             // If admin is trying to edit himself redirect him to account page
-            if (admin.Id == userId)
+            if (LoggedUser.Id == userId)
             {
                 _logger.LogInformation("Admin is trying to edit his own acc");
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
             
-            var editedUser = await _userManager.FindByIdAsync(userId);
+            EditedUser = await _userManager.FindByIdAsync(userId);
 
-            if (editedUser == null)
+            if (EditedUser == null)
             {
                 _logger.LogInformation("User not found");
                 return RedirectToPage("/Login", new { area = "Admin" });
@@ -93,38 +101,47 @@ namespace Blog.Areas.Admin.Pages
 
             // Show current values
             Input = new InputModel();
-            Input.NewName = editedUser.Name;
-            Input.NewSurname = editedUser.Surname;
-            Input.NewBirthDate = editedUser.BirthDate;
+            Input.NewName = EditedUser.Name;
+            Input.NewSurname = EditedUser.Surname;
+            Input.NewBirthDate = EditedUser.BirthDate;
 
             // Can be modified
-            editedUserId = userId;
-          
+            EditedUserId = userId;
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (editedUserId == null)
+            if (EditedUserId == null)
             {
+                _logger.LogInformation("I couldn't modify user");
                 return RedirectToPage("/Users", new { area = "Admin" });
             }
 
             // Post checking
-            var userToEdit = await _userManager.FindByIdAsync(editedUserId);
+            EditedUser = await _userManager.FindByIdAsync(EditedUserId);
 
-            if (userToEdit == null)
+            if (EditedUser == null)
             {
                 _logger.LogInformation("User not found HERE");
                 return RedirectToPage("/Users", new { area = "Admin" });
             }
 
             // Set updated user data
-            userToEdit.Name = Input.NewName;
-            userToEdit.Surname = Input.NewSurname;
-            userToEdit.BirthDate = Input.NewBirthDate;
+            EditedUser.Name = Input.NewName;
+            EditedUser.Surname = Input.NewSurname;
+            EditedUser.BirthDate = Input.NewBirthDate;
 
-            await _userManager.UpdateAsync(userToEdit);
+            IdentityResult result = await _userManager.UpdateAsync(EditedUser);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User modifed successful");
+            }
+            else
+            {
+                _logger.LogInformation("Sorry i couldn't modify user :(");
+            }
 
             return RedirectToPage("/Users", new { area = "Admin" });
         }

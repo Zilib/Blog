@@ -14,38 +14,24 @@ namespace Blog.Areas.Admin.Pages
         private readonly UserManager<BlogUser> _userManager;
 
         public string Message { get; set; }
-
-        #region User informations
-
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public DateTime? UserBirthDate { get; set; }
-
-        /// <summary>
-        /// Load data for sidebar
-        /// </summary>
-        /// <param name="user"></param>
-        private void SetUserData(BlogUser user)
-        {
-            UserName = user.Name;
-            UserSurname = user.Surname;
-            UserBirthDate = user.BirthDate;
-        }
-
-        #endregion
+        public BlogUser LoggedUser { get; set; }
+        public bool isAdministrator { get; set; }
 
         public UserDeleteModel(UserManager<BlogUser> userManager)
         {
             _userManager = userManager;
+            LoggedUser = new BlogUser();
+            isAdministrator = false;
         }
 
         public async Task<IActionResult> OnPostAsync(string userId)
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            SetUserData(admin);
+            LoggedUser = user;
+            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
 
-            if (admin.Id == userId)
+            if (LoggedUser.Id == userId)
             {
                 Message = "Nie mo¿esz skasowaæ swojego konta.";
                 return Page();

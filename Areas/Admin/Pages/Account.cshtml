@@ -6,7 +6,7 @@
 <div class="Account container">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <main>
-        <h1 class="display-1">Witaj @Model.UserName</h1>
+        <h1 class="display-1">Witaj @Model.LoggedUser.UserName</h1>
         <hr />
         <div class="UserData ml-3 w-50 ml-auto mr-auto">
             <h2 class="display-4 text-center mb-5 text-muted">Edytuj swoje dane</h2>
@@ -47,7 +47,7 @@
                         Akcja
                     </div>
                 </div>
-                @if (@Model.UserRoles.Count > 0)
+                @if (@Model.UserRoles.Count > 0 && @Model.isAdministrator)
                 {
                     <form method="post" asp-area="Admin"
                           asp-page="RoleManager/UserRemoveRole">

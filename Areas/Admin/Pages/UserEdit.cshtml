@@ -3,7 +3,7 @@
 @{
 }
 <main>
-        <h1>Witaj @Model.UserName</h1>
+        <h1>Witaj @Model.LoggedUser.UserName</h1>
         <hr />
         <h2>Edytuj swoje dane</h2>
         <form method="post">
@@ -20,7 +20,7 @@
                 <label asp-for="Input.NewBirthDate"></label>
                 <input asp-for="Input.NewBirthDate" />
             </div>
-            <input type="hidden" name="editedUserId" value="@Model.editedUserId" />
+            <input type="hidden" name="editedUserId" value="@Model.EditedUserId" />
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Aktualizuj!</button>
             </div>

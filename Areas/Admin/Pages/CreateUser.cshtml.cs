@@ -26,10 +26,14 @@ namespace Blog.Areas.Admin.Pages
         
         [BindProperty]
         public InputModel Input { get; set; }
+        public bool isAdministrator { get; set; }
+
+        public BlogUser LoggedUser { get; set; }
 
         #endregion
 
         #region Construct
+
         public CreateUserModel(
             ILogger<LoginModel> logger,
             UserManager<BlogUser> userManager,
@@ -40,30 +44,11 @@ namespace Blog.Areas.Admin.Pages
             _logger = logger;
             _signInManager = signInManager;
             isAdministrator = false;
+            LoggedUser = new BlogUser();
         }
 
         #endregion
 
-        public bool isAdministrator { get; set; }
-
-        #region User informations
-
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public DateTime? UserBirthDate { get; set; }
-
-        /// <summary>
-        /// Load data for sidebar
-        /// </summary>
-        /// <param name="user"></param>
-        private void SetUserData(BlogUser user)
-        {
-            UserName = user.Name;
-            UserSurname = user.Surname;
-            UserBirthDate = user.BirthDate;
-        }
-
-        #endregion
 
         public class InputModel
         {
@@ -112,31 +97,33 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
             // Only administrator has access to this page
-            if (!await _userManager.IsInRoleAsync(admin,"Administrator"))
+            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
             {
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
-
+            // only admin can be at this site, so he must be a admin!
             isAdministrator = true;
-            SetUserData(admin);
+
+            LoggedUser = user;
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
             // Only administrator has access to this page
-            if (!await _userManager.IsInRoleAsync(admin, "Administrator"))
+            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
             {
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
+
             isAdministrator = true;
-            SetUserData(admin);
+            LoggedUser = user;
 
             if (ModelState.IsValid)
             {

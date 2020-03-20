@@ -17,7 +17,7 @@
            </div>
            @foreach (var User in Model.Users)
            {
-               <div class="row">
+               <div class="row mt-2">
                    <div class="col-sm text-center">@User.UserName</div>
                    <div class="col-sm text-center">@User.Email</div>
                    <div class="col-sm">
@@ -29,7 +29,7 @@
                        </select>
                    </div>
                    <div class="col-sm">
-                       <form method="post"
+                       <form method="get"
                              asp-area="Admin"
                              asp-page="UserEdit">
                            <input type="hidden" value="@User.Id" name="UserId"/>

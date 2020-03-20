@@ -21,7 +21,15 @@ namespace Blog.Areas.Admin
 
         #endregion
 
+        #region Public variables
         public bool isAdministrator { get; set; }
+        public BlogUser LoggedUser { get; set; }
+        public IList<string> UserRoles { get; set; }
+        public List<IdentityRole> AllRoles { get; set; }
+        // List of roles where user is not assigned
+        public List<string> NoUserRoles { get; set; }
+
+        #endregion
 
         #region Construct
 
@@ -33,26 +41,7 @@ namespace Blog.Areas.Admin
             _logger = logger;
             _roleManager = roleManager;
             isAdministrator = false;
-        }
-
-        #endregion
-
-        #region Logged user informations
-
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public DateTime? UserBirthDate { get; set; }
-        public IList<string> UserRoles { get; set; }
-
-        private async Task SetUserData(BlogUser user)
-        {
-            UserName = user.Name;
-            UserSurname = user.Surname;
-            UserBirthDate = user.BirthDate;
-            UserId = user.Id;
-
-            AbleToModifyRoles = await _userManager.IsInRoleAsync(user, "Administrator");
-            UserRoles = await _userManager.GetRolesAsync(user);
+            LoggedUser = new BlogUser();
         }
 
         #endregion
@@ -86,29 +75,26 @@ namespace Blog.Areas.Admin
 
         #endregion
 
-        public List<IdentityRole> AllRoles { get; set; }   
-        // List of roles where user is not assigned
-        public List<string> NoUserRoles { get; set; }
-        public bool AbleToModifyRoles { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (await _userManager.IsInRoleAsync(admin, "Administrator"))
-                isAdministrator = true;
+            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
 
-            await SetUserData(admin);
+            LoggedUser = user;
 
             Input = new InputModel
             {
-                NewName = admin.Name,
-                NewSurname = admin.Surname,
-                NewBirthDate = admin.BirthDate
+                NewName = LoggedUser.Name,
+                NewSurname = LoggedUser.Surname,
+                NewBirthDate = LoggedUser.BirthDate
             };
 
             AllRoles = _roleManager.Roles.ToList();
 
             // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
+            UserRoles = await _userManager.GetRolesAsync(user);
+
             if (UserRoles.Contains("Administrator"))
                 UserRoles.Remove("Administrator");
 
@@ -126,38 +112,37 @@ namespace Blog.Areas.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var admin = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (await _userManager.IsInRoleAsync(admin, "Administrator"))
-                isAdministrator = true;
+            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
 
             if (!ModelState.IsValid)
             {
-                await SetUserData(admin);
+                LoggedUser = user;
 
                 return Page();
             }
 
             #region Input Validation
 
-            if (Input.NewName != admin.Name)
+            if (Input.NewName != user.Name)
             {
-                admin.Name = Input.NewName;
+                user.Name = Input.NewName;
             }
 
-            if (Input.NewSurname != admin.Surname)
+            if (Input.NewSurname != user.Surname)
             {
-                admin.Surname = Input.NewSurname;
+                user.Surname = Input.NewSurname;
             }
 
-            if (Input.NewBirthDate != admin.BirthDate)
+            if (Input.NewBirthDate != user.BirthDate)
             {
-                admin.BirthDate = Input.NewBirthDate;
+                user.BirthDate = Input.NewBirthDate;
             }
 
             #endregion
 
-            await _userManager.UpdateAsync(admin);
+            await _userManager.UpdateAsync(user);
 
             // Local redirect because, i want to reload data. And go to the get method
             return RedirectToPage("/Account", new { area = "Admin" });
