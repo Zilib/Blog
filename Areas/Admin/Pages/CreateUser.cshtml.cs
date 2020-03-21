@@ -27,7 +27,6 @@ namespace Blog.Areas.Admin.Pages
         [BindProperty]
         public InputModel Input { get; set; }
         public bool isAdministrator { get; set; }
-
         public BlogUser LoggedUser { get; set; }
 
         #endregion
@@ -49,7 +48,6 @@ namespace Blog.Areas.Admin.Pages
 
         #endregion
 
-
         public class InputModel
         {
             #region Required
@@ -69,8 +67,8 @@ namespace Blog.Areas.Admin.Pages
             public string Password { get; set; }
 
             [Required(ErrorMessage = "Pole {0} jest wymagane!")]
-            [Display(Name = "Potwierdü has≥o")]
             [DataType(DataType.Password)]
+            [Display(Name = "Potwierdü has≥o")]
             [Compare("Password", ErrorMessage = "Has≥a do siebie nie pasujπ")]
             public string ConfirmPassword { get; set; }
 

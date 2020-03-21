@@ -249,16 +249,17 @@
     }
 }
 */
-footer {
-  text-align: center;
-  font-size: 2rem;
-  width: 100%;
-  box-sizing: border-box;
-  position: absolute;
-  padding: 15px;
-  bottom: 0; }
+/*footer {
+    text-align:center;
+    font-size:2rem;
+    width:100%;
+    box-sizing:border-box;
+    position:absolute;
+    padding:15px;
+    bottom:0;
+}
 
-/*
+
 .text-thick {
     font-weight:300;
 }

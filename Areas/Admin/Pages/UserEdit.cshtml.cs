@@ -32,15 +32,6 @@ namespace Blog.Areas.Admin.Pages
             isAdministrator = false;
 
             #endregion
-
-            #region This class's collections and objects
-
-            LoggedUser = new BlogUser();
-            EditedUser = new BlogUser();
-            EditedUserRoles = new List<string>();
-            NoEditedUserRoles = new List<string>();
-
-            #endregion
         }
 
         #endregion
@@ -85,13 +76,9 @@ namespace Blog.Areas.Admin.Pages
         [HiddenInput]
         public string EditedUserId { get; set; }
 
+        // User data informations
         [BindProperty]
         public InputModel Input { get; set; }
-        /// <summary>
-        /// Model of user who actually is modyfing
-        /// </summary>
-        [BindProperty]
-        public BlogUser EditedUser { get; set; }
 
         #endregion
 
@@ -99,18 +86,87 @@ namespace Blog.Areas.Admin.Pages
 
         public class InputModel
         {
-            [Required]
+            #region Required
+
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
+            [Display(Name ="Nazwa u¿ytkownika")]
+            public string NewUserName { get; set; }
+
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
+            [EmailAddress]
+            [Display(Name = "Email")]
+            public string NewEmail { get; set; }
+
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Imiê")]
             public string NewName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Nazwisko")]
             public string NewSurname { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole {0} jest wymagane!")]
             [Display(Name = "Data urodzenia")]
-            [DataType(DataType.Date)]
+            [DataType(DataType.Date, ErrorMessage = "Wartoœæ jest nieprawid³owa")]
             public DateTime? NewBirthDate { get; set; }
+
+            #endregion
+
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "Nr. Telefonu")]
+            public string NewPhoneNumber { get; set; }
+        }
+
+        #endregion
+
+        #region Private functions
+
+        private void SetInputValues(BlogUser user)
+        {
+            if (Input == null)
+                Input = new InputModel();
+
+            Input.NewName = user.Name;
+            Input.NewSurname = user.Surname;
+            Input.NewUserName = user.UserName;
+            Input.NewEmail = user.Email;
+            Input.NewPhoneNumber = user.PhoneNumber;
+            Input.NewBirthDate = user.BirthDate;
+        }
+
+        private bool UpdateEditedUser(BlogUser editedUser)
+        {
+            // If something went wrong, and input doesn't exist
+            if (Input == null)
+                return false;
+
+            editedUser.Name = Input.NewName;
+            editedUser.Surname = Input.NewSurname;
+            editedUser.UserName = Input.NewUserName;
+            editedUser.Email = Input.NewEmail;
+            editedUser.PhoneNumber = Input.NewPhoneNumber;
+            editedUser.BirthDate = Input.NewBirthDate;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Set roles variable's, setted and unsetted
+        /// </summary>
+        private async Task GetRoles(BlogUser EditedUser)
+        {
+            EditedUserRoles = new List<string>();
+            EditedUserRoles = await _userManager.GetRolesAsync(EditedUser);
+            var AllAvailableRoles = _roleManager.Roles.ToList();
+
+            NoEditedUserRoles = new List<string>();
+
+            // Find roles which are not assigned to edited user
+            foreach (var role in AllAvailableRoles.ToList())
+            {
+                if (!EditedUserRoles.Contains(role.ToString()))
+                NoEditedUserRoles.Add(role.ToString());
+            }
         }
 
         #endregion
@@ -127,6 +183,8 @@ namespace Blog.Areas.Admin.Pages
                 return RedirectToPage("/Account", new { area = "Admin" });
 
             isAdministrator = true; // if user is admin, tell it to the app
+
+            LoggedUser = new BlogUser();
             LoggedUser = user; // It is administrator
 
             #endregion
@@ -144,9 +202,9 @@ namespace Blog.Areas.Admin.Pages
                 return RedirectToPage("/Account", new { area = "Admin" });
             }
 
-            #region Set variables value
+            #region Validate edited user and set input model
 
-            EditedUser = await _userManager.FindByIdAsync(userId);
+            var EditedUser = await _userManager.FindByIdAsync(userId);
 
             // User not found
             if (EditedUser == null)
@@ -156,30 +214,14 @@ namespace Blog.Areas.Admin.Pages
             }
 
             // Show current values
-            Input = new InputModel();
-            Input.NewName = EditedUser.Name;
-            Input.NewSurname = EditedUser.Surname;
-            Input.NewBirthDate = EditedUser.BirthDate;
+            SetInputValues(EditedUser);
 
             // Set it for form
             EditedUserId = userId;
 
             #endregion
 
-            #region Roles
-
-            EditedUserRoles = await _userManager.GetRolesAsync(EditedUser);
-            var AllAvailableRoles = _roleManager.Roles.ToList();
-
-            // Find roles which are not assigned to edited user
-            foreach (var role in AllAvailableRoles.ToList())
-            {
-                if (!EditedUserRoles.Contains(role.ToString()))
-                    NoEditedUserRoles.Add(role.ToString());
-            }
-            _logger.LogInformation(EditedUserRoles.Count().ToString());
-
-            #endregion
+            await GetRoles(EditedUser);
 
             return Page();
         }
@@ -190,6 +232,10 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            #region Validate edited user
+
             if (EditedUserId == null)
             {
                 _logger.LogInformation("I couldn't modify user");
@@ -197,7 +243,7 @@ namespace Blog.Areas.Admin.Pages
             }
 
             // Post checking
-            EditedUser = await _userManager.FindByIdAsync(EditedUserId);
+            var EditedUser = await _userManager.FindByIdAsync(EditedUserId);
 
             if (EditedUser == null)
             {
@@ -205,10 +251,34 @@ namespace Blog.Areas.Admin.Pages
                 return RedirectToPage("/Users", new { area = "Admin" });
             }
 
+            #endregion
+
+            #region Validate form
+
+            if (!ModelState.IsValid)
+            {
+                LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
+                await GetRoles(EditedUser);
+
+                return Page();
+            }
+
+            #endregion
+
             // Set updated user data
-            EditedUser.Name = Input.NewName;
-            EditedUser.Surname = Input.NewSurname;
-            EditedUser.BirthDate = Input.NewBirthDate;
+            if (!UpdateEditedUser(EditedUser))
+            {
+                _logger.LogInformation("Input is null");
+                return RedirectToPage("Users", new { area = "Admin" });
+            }
+
+            if (await _userManager.FindByEmailAsync(Input.NewEmail) != null)
+            {
+                ModelState.AddModelError(string.Empty, "Ten adres email jest u¿ywany");
+                await GetRoles(EditedUser);
+
+                return Page();
+            }
 
             IdentityResult result = await _userManager.UpdateAsync(EditedUser);
             if (result.Succeeded)
@@ -218,7 +288,17 @@ namespace Blog.Areas.Admin.Pages
             else
             {
                 _logger.LogInformation("Sorry i couldn't modify user :(");
+
+                await GetRoles(EditedUser);
+
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return Page();
             }
+
 
             return RedirectToPage("/Users", new { area = "Admin" });
         }
