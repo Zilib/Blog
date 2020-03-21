@@ -2,12 +2,12 @@
 @model Blog.Areas.Admin.Pages.UserEditModel
 @{
 }
-<div class="Account container">
+<div class="Account container ">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <main>
         <h1 class="display-1">Witaj @Model.LoggedUser.UserName</h1>
         <hr />
-            <h2 class="display-4 text-center mb-5 text-muted">Edytujesz dane użytkownika <b>@Model.LoggedUser.UserName</b></h2>
+            <h2 class="display-4 text-center mb-5 text-muted">Edytujesz dane użytkownika <b>@Model.EditedUserNick</b></h2>
         <div class="UserData ml-3 w-50 ml-auto mr-auto">
             <div asp-validation-summary="All" class="text-danger"></div>
             <form method="post" class="mt-3">

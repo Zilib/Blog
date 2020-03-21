@@ -48,6 +48,7 @@ namespace Blog.Areas.Admin.Pages
 
         // In assumptions it is administrator
         public BlogUser LoggedUser { get; set; }
+        public string EditedUserNick { get; set; }
         public bool isAdministrator { get; set; }
         // Roles which are assigned to edited user
         public IList<string> EditedUserRoles { get; set; }
@@ -175,17 +176,14 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnGetAsync(string userId = null)
         {
-            #region Validate user, and assign him
+            #region Validate logged user(admin)
 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (!await _userManager.IsInRoleAsync(user, "Administrator"))
+            if (!await _userManager.IsInRoleAsync(LoggedUser, "Administrator"))
                 return RedirectToPage("/Account", new { area = "Admin" });
 
             isAdministrator = true; // if user is admin, tell it to the app
-
-            LoggedUser = new BlogUser();
-            LoggedUser = user; // It is administrator
 
             #endregion
 
@@ -205,6 +203,7 @@ namespace Blog.Areas.Admin.Pages
             #region Validate edited user and set input model
 
             var EditedUser = await _userManager.FindByIdAsync(userId);
+            EditedUserNick = EditedUser.UserName;
 
             // User not found
             if (EditedUser == null)
@@ -232,7 +231,16 @@ namespace Blog.Areas.Admin.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            #region Validate logged user(admin)
+
             LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (!await _userManager.IsInRoleAsync(LoggedUser, "Administrator"))
+                return RedirectToPage("/Account", new { area = "Admin" });
+
+            isAdministrator = true; // if user is admin, tell it to the app
+
+            #endregion
 
             #region Validate edited user
 
@@ -244,6 +252,7 @@ namespace Blog.Areas.Admin.Pages
 
             // Post checking
             var EditedUser = await _userManager.FindByIdAsync(EditedUserId);
+            EditedUserNick = EditedUser.Name;
 
             if (EditedUser == null)
             {
@@ -265,6 +274,8 @@ namespace Blog.Areas.Admin.Pages
 
             #endregion
 
+            #region Update user
+
             // Set updated user data
             if (!UpdateEditedUser(EditedUser))
             {
@@ -272,6 +283,7 @@ namespace Blog.Areas.Admin.Pages
                 return RedirectToPage("Users", new { area = "Admin" });
             }
 
+            // If this email is in use, forbidden to edit his acc
             if (await _userManager.FindByEmailAsync(Input.NewEmail) != null)
             {
                 ModelState.AddModelError(string.Empty, "Ten adres email jest u¿ywany");
@@ -299,6 +311,7 @@ namespace Blog.Areas.Admin.Pages
                 return Page();
             }
 
+            #endregion
 
             return RedirectToPage("/Users", new { area = "Admin" });
         }
