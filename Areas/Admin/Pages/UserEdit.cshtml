@@ -54,18 +54,20 @@
             </form>
         </div>
         <hr />
-        <div class="UserRoles">
-            <h2 class="display-4 text-muted text-center">Role</h2>
+        @if (@Model.isAdministrator) 
+        { 
+        <div class="UserGroups">
+            <h2 class="display-4 text-muted text-center">Grupy</h2>
             <div class="container">
                 <div class="row">
                     <div class="col-sm text-muted">
-                        Nazwa roli
+                        Nazwa grupy
                     </div>
                     <div class="col-sm text-muted pl-4 pb-2">
                         Akcja
                     </div>
                 </div>
-                @if (@Model.NumberOfRoles() > 0 && @Model.isAdministrator)
+                @if (@Model.NumberOfRoles() > 0)
                 {
                     <form method="post" asp-area="Admin"
                           asp-page="RoleManager/UserRemoveRole">
@@ -80,7 +82,7 @@
                                 </select>
                             </div>
                             <div class="col-sm">
-                                <button type="submit" class="btn btn-danger">Usuń rolę</button>
+                                <button type="submit" class="btn btn-danger">Usuń z grupy</button>
                             </div>
                         </div>
                     </form>
@@ -90,23 +92,24 @@
                     <form method="post"
                           asp-area="Admin"
                           asp-page="RoleManager/UserAddRole">
-                        <input asp-for="@Model.EditedUserId" />
+                        <input asp-for="@Model.EditedUserId" name="UserId" />
                         <div class="row mt-2">
                             <div class="col-sm">
                                 <select class="custom-select" name="RoleToAssign">
-                                    @foreach (var role in @Model.NoEditedUserRoles)
+                                    @foreach (var role in @Model.RolesAvailableToAdd)
                                     {
                                         <option value="@role">@role</option>
                                     }
                                 </select>
                             </div>
                             <div class="col-sm">
-                                <button type="submit" class="btn btn-primary">Dodaj rolę</button>
+                                <button type="submit" class="btn btn-primary">Dodaj do grupy</button>
                             </div>
                         </div>
                     </form>
                 }
             </div>
         </div>
+        }
     </main>
 </div>

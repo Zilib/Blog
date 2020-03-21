@@ -7,46 +7,55 @@
 <div class="Users container pt-2">
     <partial name="~/Areas/Admin/Pages/_Sidebar.cshtml" />
     <main>
-       <div class="container">
-           <div class="row mb-2 border-bottom">
-               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Użytkownik</h4></div>
-               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Email</h4></div>
-               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Role</h4></div>
-               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Edytuj</h4></div>
-               <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Usuń</h4></div>
-           </div>
-           @foreach (var User in Model.Users)
-           {
-               <div class="row mt-2">
-                   <div class="col-sm text-center">@User.UserName</div>
-                   <div class="col-sm text-center">@User.Email</div>
-                   <div class="col-sm">
-                       <select class="custom-select">
-                           @foreach (var role in @Model.UserRoles[User.Id])
-                           {
-                               <option>@role</option>
-                           }
-                       </select>
-                   </div>
-                   <div class="col-sm">
-                       <form method="get"
-                             asp-area="Admin"
-                             asp-page="UserEdit">
-                           <input type="hidden" value="@User.Id" name="UserId"/>
-                           <button type="submit" class="btn btn-primary btn-block d-block ml-auto mr-auto">Edytuj</button>
-                       </form>
-                   </div>
-                   <div class="col-sm">
-                       <form method="post"
-                             asp-area="Admin"
-                             asp-page="UserDelete">
-                           <input type="hidden" name="UserId" value="@User.Id" />
-                           <button type="submit" class="btn btn-danger btn-block d-block ml-auto mr-auto">Usuń</button>
-                       </form>
-                   </div>
-               </div>
-           }
-       </div>
+        <div class="container">
+            <div class="row mb-2 border-bottom">
+                <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Użytkownik</h4></div>
+                <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Email</h4></div>
+                <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Grupy</h4></div>
+                <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Edytuj</h4></div>
+                <div class="col-sm font-weight-light text-center"><h4 class="font-weight-light p-2">Usuń</h4></div>
+            </div>
+            @foreach (var User in Model.Users)
+            {
+                <div class="row mt-2">
+                    <div class="col-sm text-center">@User.UserName</div>
+                    <div class="col-sm text-center">@User.Email</div>
+                    <div class="col-sm">
+                        @if (@Model.UserRoles[User.Id].Count > 0)
+                        {
+                            <select class="custom-select">
+                                @foreach (var role in @Model.UserRoles[User.Id])
+                                {
+                                    <option>@role</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="custom-select" disabled>
+                                <option>Brak grup</option>
+                            </select>
+                        }
+                    </div>
+                    <div class="col-sm">
+                        <form method="get"
+                              asp-area="Admin"
+                              asp-page="UserEdit">
+                            <input type="hidden" value="@User.Id" name="UserId" />
+                            <button type="submit" class="btn btn-primary btn-block d-block ml-auto mr-auto">Edytuj</button>
+                        </form>
+                    </div>
+                    <div class="col-sm">
+                        <form method="post"
+                              asp-area="Admin"
+                              asp-page="UserDelete">
+                            <input type="hidden" name="UserId" value="@User.Id" />
+                            <button type="submit" class="btn btn-danger btn-block d-block ml-auto mr-auto">Usuń</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
 
         <a asp-area="Admin"
            asp-page="CreateUser"

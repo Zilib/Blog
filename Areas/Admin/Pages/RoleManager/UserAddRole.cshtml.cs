@@ -28,7 +28,9 @@ namespace Blog.Areas.Admin.Pages.RoleManager
 
         public async Task<IActionResult> OnPost()
         {
-            var UserId = Request.Form["UserId"].ToString();
+            // Depend of page, if we are working with edit page name of input with user id is EditedUserId, but if we are working with account page. Name of input where is user id is UserId 
+            var UserId = Request.Form["UserId"].ToString() == string.Empty ? Request.Form["EditedUserId"].ToString() : Request.Form["UserId"].ToString();
+
             var RoleToAssign = Request.Form["RoleToAssign"].ToString();
 
             if (UserId == string.Empty || RoleToAssign == string.Empty)
@@ -45,9 +47,14 @@ namespace Blog.Areas.Admin.Pages.RoleManager
             }
 
             IdentityResult result = await _userManager.AddToRoleAsync(UserToAssignRole, RoleToAssign);
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("Role's assigned successful to the user");
+
+                // Back to last page. If you edited your own profile you go back to account page, if not it is probabbly EditUser
+                if (Request.Headers["Referer"].ToString() != string.Empty)
+                    return Redirect(Request.Headers["Referer"].ToString());
             } 
             else
             {

@@ -53,7 +53,7 @@ namespace Blog.Areas.Admin.Pages
         // Roles which are assigned to edited user
         public IList<string> EditedUserRoles { get; set; }
         // Roles which are not assigned to edited user user
-        public List<string> NoEditedUserRoles { get; set; }
+        public List<string> RolesAvailableToAdd { get; set; }
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace Blog.Areas.Admin.Pages
         /// <summary>
         /// Receive number of roles which are not assigned to the user!
         /// </summary>
-        public int NumberOfNoRoles() => NoEditedUserRoles.Count();
+        public int NumberOfNoRoles() => RolesAvailableToAdd.Count();
         #endregion
 
         #region Binds
@@ -152,7 +152,7 @@ namespace Blog.Areas.Admin.Pages
         }
 
         /// <summary>
-        /// Set roles variable's, setted and unsetted
+        /// Set roles variables, get assigned edited user roles, and unassigned roles. Put it into a variables
         /// </summary>
         private async Task GetRoles(BlogUser EditedUser)
         {
@@ -160,13 +160,14 @@ namespace Blog.Areas.Admin.Pages
             EditedUserRoles = await _userManager.GetRolesAsync(EditedUser);
             var AllAvailableRoles = _roleManager.Roles.ToList();
 
-            NoEditedUserRoles = new List<string>();
+            RolesAvailableToAdd = new List<string>();
 
             // Find roles which are not assigned to edited user
             foreach (var role in AllAvailableRoles.ToList())
             {
-                if (!EditedUserRoles.Contains(role.ToString()))
-                NoEditedUserRoles.Add(role.ToString());
+                if (role.ToString() != "Za³o¿yciel"
+                    && !EditedUserRoles.Contains(role.ToString()))
+                RolesAvailableToAdd.Add(role.ToString());
             }
         }
 
@@ -235,7 +236,8 @@ namespace Blog.Areas.Admin.Pages
 
             LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
 
-            if (!await _userManager.IsInRoleAsync(LoggedUser, "Administrator"))
+            if (!await _userManager.IsInRoleAsync(LoggedUser, "Administrator")
+                && !await _userManager.IsInRoleAsync(LoggedUser, "Za³o¿yciel"))
                 return RedirectToPage("/Account", new { area = "Admin" });
 
             isAdministrator = true; // if user is admin, tell it to the app

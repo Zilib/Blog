@@ -32,7 +32,8 @@ namespace Blog.Areas.Admin.Pages
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            if(!await _userManager.IsInRoleAsync(user, "Administrator"))
+            if(!await _userManager.IsInRoleAsync(user, "Administrator")
+                && !await _userManager.IsInRoleAsync(user, "Za³o¿yciel"))
             {
                 _logger.LogInformation("You are not able to remove role!");
                 return RedirectToPage("/Account", new { area = "Admin" });
@@ -43,9 +44,11 @@ namespace Blog.Areas.Admin.Pages
             #region Form validation
 
             var roleToRemove = Request.Form["UserRole"].ToString();
-            var userId = Request.Form["UserId"].ToString();
 
-            if (string.IsNullOrEmpty(roleToRemove) || string.IsNullOrEmpty(userId))
+            // Depend of page, if we are working with edit page name of input with user id is EditedUserId, but if we are working with account page. Name of input where is user id is UserId 
+            var UserId = Request.Form["UserId"].ToString() == string.Empty ? Request.Form["EditedUserId"].ToString() : Request.Form["UserId"].ToString();
+
+            if (string.IsNullOrEmpty(roleToRemove) || string.IsNullOrEmpty(UserId))
             {
                 _logger.LogInformation("Something is wrong");
                 return RedirectToPage("/Account", new { area = "Admin" });
@@ -56,7 +59,7 @@ namespace Blog.Areas.Admin.Pages
             #region Remove role
             
             // Find user who will lost his privilages
-            var UserToRemoveRole = await _userManager.FindByIdAsync(userId);
+            var UserToRemoveRole = await _userManager.FindByIdAsync(UserId);
             if (UserToRemoveRole == null)
             {
                 _logger.LogInformation("No user id");
@@ -66,6 +69,9 @@ namespace Blog.Areas.Admin.Pages
             await _userManager.RemoveFromRoleAsync(UserToRemoveRole, roleToRemove);
 
             #endregion
+            // Back to last page. If you edited your own profile you go back to account page, if not it is probabbly EditUser
+            if (Request.Headers["Referer"].ToString() != string.Empty)
+                return Redirect(Request.Headers["Referer"].ToString());
 
             return RedirectToPage("/Account", new { area = "Admin" });
         }

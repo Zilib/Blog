@@ -27,7 +27,7 @@ namespace Blog.Areas.Admin
         public IList<string> UserRoles { get; set; }
         public List<IdentityRole> AllRoles { get; set; }
         // List of roles where user is not assigned
-        public List<string> NoUserRoles { get; set; }
+        public List<string> RolesAvailableToAdd { get; set; }
 
         #endregion
 
@@ -79,7 +79,7 @@ namespace Blog.Areas.Admin
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
+            isAdministrator = await _userManager.IsInRoleAsync(user, "Administrator") || await _userManager.IsInRoleAsync(user,"Za這篡ciel");
 
             LoggedUser = user;
             UserId = LoggedUser.Id;
@@ -96,16 +96,16 @@ namespace Blog.Areas.Admin
             // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
             UserRoles = await _userManager.GetRolesAsync(user);
 
-            if (UserRoles.Contains("Administrator"))
-                UserRoles.Remove("Administrator");
+            if (UserRoles.Contains("Za這篡ciel"))
+                UserRoles.Remove("Za這篡ciel");
 
             // Fill the array, of the values which are not assigned to the user
-            NoUserRoles = new List<string>();
+            RolesAvailableToAdd = new List<string>();
             foreach (var role in AllRoles)
             {
-                if (role.ToString() != "Administrator" 
+                if (role.ToString() != "Za這篡ciel" 
                     && !UserRoles.Contains(role.ToString()))
-                    NoUserRoles.Add(role.ToString());
+                    RolesAvailableToAdd.Add(role.ToString());
             }
 
             return Page();
