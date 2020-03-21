@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blog.Areas.Admin.Pages
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, Za³o¿yciel")]
     public class UsersModel : PageModel
     {
         #region Private variables
@@ -26,6 +26,7 @@ namespace Blog.Areas.Admin.Pages
         public List<BlogUser> Users { get; set; }
         public bool isAdministrator { get; set; }
         public BlogUser LoggedUser { get; set; }
+
         #endregion
 
         public UsersModel(UserManager<BlogUser> userManager, ILogger<LoginModel> logger)
@@ -52,7 +53,7 @@ namespace Blog.Areas.Admin.Pages
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator"));
+            isAdministrator = await _userManager.IsInRoleAsync(user, ("Administrator")) || await _userManager.IsInRoleAsync(user, "Za³o¿yciel");
 
             LoggedUser = user;
 

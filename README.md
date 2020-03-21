@@ -14,3 +14,12 @@
 
 # Application informations
 Application provides register only for first user in database, first registered user will be a administrator.
+
+# Helper view  
+It is worth to create this view
+```sql
+CREATE VIEW [dbo].[View]
+	AS SELECT dbo.AspNetRoles.Name as "Role name", dbo.AspNetUsers.Name as "User name", dbo.AspNetUsers.Id as "User Id" 
+from dbo.AspNetRoles join dbo.AspNetUserRoles on dbo.AspNetUserRoles.RoleId = dbo.AspNetRoles.Id
+join dbo.AspNetUsers on dbo.AspNetUserRoles.UserId = dbo.AspnetUsers.Id;
+```

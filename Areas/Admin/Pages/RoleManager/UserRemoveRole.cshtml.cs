@@ -69,6 +69,7 @@ namespace Blog.Areas.Admin.Pages
             await _userManager.RemoveFromRoleAsync(UserToRemoveRole, roleToRemove);
 
             #endregion
+
             // Back to last page. If you edited your own profile you go back to account page, if not it is probabbly EditUser
             if (Request.Headers["Referer"].ToString() != string.Empty)
                 return Redirect(Request.Headers["Referer"].ToString());

@@ -18,6 +18,7 @@ namespace Blog.Areas.Admin
         private readonly UserManager<BlogUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly string[] ForbiddenRolesToRemove = { "Administrator", "Za這篡ciel" };
 
         #endregion
 
@@ -25,7 +26,6 @@ namespace Blog.Areas.Admin
         public bool isAdministrator { get; set; }
         public BlogUser LoggedUser { get; set; }
         public IList<string> UserRoles { get; set; }
-        public List<IdentityRole> AllRoles { get; set; }
         // List of roles where user is not assigned
         public List<string> RolesAvailableToAdd { get; set; }
 
@@ -75,6 +75,78 @@ namespace Blog.Areas.Admin
 
         #endregion
 
+        #region Private functions
+        /// <summary>
+        /// Set all role variables, forbbid removing administrator.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private async Task GetRoles(BlogUser user, BlogUser Admin)
+        {
+            var AllRoles = _roleManager.Roles.ToList();
+
+            // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
+            UserRoles = await _userManager.GetRolesAsync(user);
+
+            // Za這篡ciel can give for another user administrator, so give him this privilage
+            RolesAvailableToAdd = new List<string>();
+            if (await _userManager.IsInRoleAsync(Admin, "Za這篡ciel") && !await _userManager.IsInRoleAsync(Admin,"Administrator"))
+                RolesAvailableToAdd.Add("Administrator");
+
+            //Only Za這篡ciel can add and remove administrator role
+            if (!UserRoles.Contains("Za這篡ciel") && UserRoles.Contains("Administrator"))
+                UserRoles.Remove("Administrator");
+            if (UserRoles.Contains("Za這篡ciel"))
+                UserRoles.Remove("Za這篡ciel");
+
+
+            // Fill the array, of the values which are not assigned to the user
+            foreach (var role in AllRoles)
+            {
+                if (!ForbiddenRolesToRemove.Contains(role.ToString())
+                    && !UserRoles.Contains(role.ToString()))
+                    RolesAvailableToAdd.Add(role.ToString());
+            }
+        }
+
+        /// <summary>
+        /// When user is a admin
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private async Task GetRoles(BlogUser user)
+        {
+            var AllRoles = _roleManager.Roles.ToList();
+
+            // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
+            UserRoles = await _userManager.GetRolesAsync(user);
+
+            // Za這篡ciel can give for another user administrator, so give him this privilage
+            RolesAvailableToAdd = new List<string>();
+            if (!UserRoles.Contains("Administrator") 
+                && await _userManager.IsInRoleAsync(user, "Za這篡ciel")
+                && await _userManager.IsInRoleAsync(user, "Administrator"))
+                {
+                    RolesAvailableToAdd.Add("Administrator");
+                }
+
+            //Only Za這篡ciel can add and remove administrator role
+            if (!UserRoles.Contains("Za這篡ciel") && UserRoles.Contains("Administrator"))
+                UserRoles.Remove("Administrator");
+            if (UserRoles.Contains("Za這篡ciel"))
+                UserRoles.Remove("Za這篡ciel");
+
+
+            // Fill the array, of the values which are not assigned to the user
+            foreach (var role in AllRoles)
+            {
+                if (!ForbiddenRolesToRemove.Contains(role.ToString())
+                    && !UserRoles.Contains(role.ToString()))
+                    RolesAvailableToAdd.Add(role.ToString());
+            }
+        }
+        #endregion
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -91,22 +163,7 @@ namespace Blog.Areas.Admin
                 NewBirthDate = LoggedUser.BirthDate
             };
 
-            AllRoles = _roleManager.Roles.ToList();
-
-            // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
-            UserRoles = await _userManager.GetRolesAsync(user);
-
-            if (UserRoles.Contains("Za這篡ciel"))
-                UserRoles.Remove("Za這篡ciel");
-
-            // Fill the array, of the values which are not assigned to the user
-            RolesAvailableToAdd = new List<string>();
-            foreach (var role in AllRoles)
-            {
-                if (role.ToString() != "Za這篡ciel" 
-                    && !UserRoles.Contains(role.ToString()))
-                    RolesAvailableToAdd.Add(role.ToString());
-            }
+            await GetRoles(user);
 
             return Page();
         }

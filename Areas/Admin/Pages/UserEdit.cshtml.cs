@@ -152,22 +152,39 @@ namespace Blog.Areas.Admin.Pages
         }
 
         /// <summary>
-        /// Set roles variables, get assigned edited user roles, and unassigned roles. Put it into a variables
+        /// Set all role variables, forbbid removing administrator.
         /// </summary>
-        private async Task GetRoles(BlogUser EditedUser)
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private async Task GetRoles(BlogUser user,BlogUser Admin)
         {
-            EditedUserRoles = new List<string>();
-            EditedUserRoles = await _userManager.GetRolesAsync(EditedUser);
-            var AllAvailableRoles = _roleManager.Roles.ToList();
+            var AllRoles = _roleManager.Roles.ToList();
 
+            // If user is the administrator, don't show it him. He know about it, disallow him to remove the most powerful function
+            EditedUserRoles = await _userManager.GetRolesAsync(user);
+
+            // Za這篡ciel can give for another user administrator, so give him this privilage
             RolesAvailableToAdd = new List<string>();
+            if (await _userManager.IsInRoleAsync(Admin, "Za這篡ciel")
+                && await _userManager.IsInRoleAsync(Admin, "Administrator"))
+                RolesAvailableToAdd.Add("Administrator");
 
-            // Find roles which are not assigned to edited user
-            foreach (var role in AllAvailableRoles.ToList())
+            //Only Za這篡ciel can add and remove administrator role
+            if (!await _userManager.IsInRoleAsync(Admin,"Za這篡ciel")
+                && EditedUserRoles.Contains("Administrator"))
+                EditedUserRoles.Remove("Administrator");
+
+            if (EditedUserRoles.Contains("Za這篡ciel"))
+                EditedUserRoles.Remove("Za這篡ciel");
+
+
+            // Fill the array, of the values which are not assigned to the user
+            foreach (var role in AllRoles)
             {
-                if (role.ToString() != "Za這篡ciel"
+                if (role.ToString() != "Za這篡ciel" // Don't show za這篡ciel
+                    && role.ToString() != "Administrator" // It is added up, only Za這篡ciel can see it
                     && !EditedUserRoles.Contains(role.ToString()))
-                RolesAvailableToAdd.Add(role.ToString());
+                    RolesAvailableToAdd.Add(role.ToString());
             }
         }
 
@@ -179,10 +196,15 @@ namespace Blog.Areas.Admin.Pages
         {
             #region Validate logged user(admin)
 
-            LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
+            /// It should be admin
+            LoggedUser = await _userManager.GetUserAsync(HttpContext.User); // It should be admin
 
-            if (!await _userManager.IsInRoleAsync(LoggedUser, "Administrator"))
+            if (!await _userManager.IsInRoleAsync(LoggedUser, "Administrator") 
+                && !await _userManager.IsInRoleAsync(LoggedUser, "Za這篡ciel"))
+            {
+                _logger.LogInformation("You are not a admin!");
                 return RedirectToPage("/Account", new { area = "Admin" });
+            }
 
             isAdministrator = true; // if user is admin, tell it to the app
 
@@ -221,7 +243,7 @@ namespace Blog.Areas.Admin.Pages
 
             #endregion
 
-            await GetRoles(EditedUser);
+            await GetRoles(EditedUser, LoggedUser);
 
             return Page();
         }
@@ -269,7 +291,7 @@ namespace Blog.Areas.Admin.Pages
             if (!ModelState.IsValid)
             {
                 LoggedUser = await _userManager.GetUserAsync(HttpContext.User);
-                await GetRoles(EditedUser);
+                await GetRoles(EditedUser,LoggedUser);
 
                 return Page();
             }
@@ -289,7 +311,7 @@ namespace Blog.Areas.Admin.Pages
             if (await _userManager.FindByEmailAsync(Input.NewEmail) != null)
             {
                 ModelState.AddModelError(string.Empty, "Ten adres email jest u篡wany");
-                await GetRoles(EditedUser);
+                await GetRoles(EditedUser,LoggedUser);
 
                 return Page();
             }
@@ -303,7 +325,7 @@ namespace Blog.Areas.Admin.Pages
             {
                 _logger.LogInformation("Sorry i couldn't modify user :(");
 
-                await GetRoles(EditedUser);
+                await GetRoles(EditedUser,LoggedUser);
 
                 foreach(var error in result.Errors)
                 {
